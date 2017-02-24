@@ -212,7 +212,7 @@ namespace Avatar2
             float target_thrust = Mathf.Lerp(config.minThrustSpeed, config.maxThrustSpeed, up_down_modifier);
             state.thrust.set_target(target_thrust);
             state.thrust.tick(Mathf.Lerp(config.rechMinThrustTimeMultiplicator, config.rechMaxThrustTimeMultiplicator, up_down_modifier) * dt);
-            Debug.Log(state.thrust.get_value());
+           // Debug.Log(state.thrust.get_value());
 
 #if USE_BOUND_ROTATION
             ////////////////////

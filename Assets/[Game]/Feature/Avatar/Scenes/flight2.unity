@@ -41962,6 +41962,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1587717733}
+  - component: {fileID: 1587717734}
   m_Layer: 0
   m_Name: Bird
   m_TagString: Untagged
@@ -41983,6 +41984,25 @@ Transform:
   m_Father: {fileID: 1445995232}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1587717734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1587717732}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 178dae23920e38e48a4f3de3b9b83d6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 1680863409}
+  leftTrail: {fileID: 946713188}
+  rightTrail: {fileID: 1221217454}
+  effects: {fileID: 116038365}
+  minSpeedToTrail: 64
+  minSpeedToBlur: 64
+  distortionDamp: 1024
+  trailDamp: 500
 --- !u!1 &1589112707
 GameObject:
   m_ObjectHideFlags: 0
@@ -44427,6 +44447,11 @@ Transform:
   m_PrefabParentObject: {fileID: 4033186664487406, guid: dc34f92c42ffe41aa957f997ee280c4a,
     type: 2}
   m_PrefabInternal: {fileID: 1679463613}
+--- !u!95 &1680863409 stripped
+Animator:
+  m_PrefabParentObject: {fileID: 95608822896496160, guid: fc835a06b91b95245b3c4ba206d2d24c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1539115469}
 --- !u!1 &1682854849
 GameObject:
   m_ObjectHideFlags: 0
@@ -47229,6 +47254,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1816827289}
   - component: {fileID: 1816827290}
+  - component: {fileID: 1816827291}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -47263,6 +47289,19 @@ MonoBehaviour:
   config:
     character: {fileID: 1445995233}
     xbox_gamepad: {fileID: 880950806}
+--- !u!114 &1816827291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1816827288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0954a24d815d8ce4294e4931ec5ada53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  freezeInput: Sprint
+  slowedTimeScale: 0.1
 --- !u!1001 &1819861692
 Prefab:
   m_ObjectHideFlags: 0

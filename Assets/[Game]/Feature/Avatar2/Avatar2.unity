@@ -7154,67 +7154,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4414764840449782, guid: 09bf9080a73183f4da1118b76250107c,
     type: 2}
   m_PrefabInternal: {fileID: 402718455}
---- !u!1001 &405419508
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4586885206515280, guid: 8ba73e388d0c8ac4dbdcb53c513a289e, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4586885206515280, guid: 8ba73e388d0c8ac4dbdcb53c513a289e, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4586885206515280, guid: 8ba73e388d0c8ac4dbdcb53c513a289e, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4586885206515280, guid: 8ba73e388d0c8ac4dbdcb53c513a289e, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4586885206515280, guid: 8ba73e388d0c8ac4dbdcb53c513a289e, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4586885206515280, guid: 8ba73e388d0c8ac4dbdcb53c513a289e, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4586885206515280, guid: 8ba73e388d0c8ac4dbdcb53c513a289e, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4586885206515280, guid: 8ba73e388d0c8ac4dbdcb53c513a289e, type: 2}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114847265582476508, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: _depthOfFieldTargetFocus
-      value: 
-      objectReference: {fileID: 263643074}
-    - target: {fileID: 114847265582476508, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: bMat
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114015861163766132, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.xbox_gamepad
-      value: 
-      objectReference: {fileID: 880950806}
-    - target: {fileID: 1394661890074576, guid: 8ba73e388d0c8ac4dbdcb53c513a289e, type: 2}
-      propertyPath: m_Name
-      value: Avatar_v0.2.1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 8ba73e388d0c8ac4dbdcb53c513a289e, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1001 &409770689
 Prefab:
   m_ObjectHideFlags: 0
@@ -15638,6 +15577,63 @@ Transform:
   m_Father: {fileID: 74780519}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &784404259
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4586885206515280, guid: 8ba73e388d0c8ac4dbdcb53c513a289e, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4586885206515280, guid: 8ba73e388d0c8ac4dbdcb53c513a289e, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4586885206515280, guid: 8ba73e388d0c8ac4dbdcb53c513a289e, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4586885206515280, guid: 8ba73e388d0c8ac4dbdcb53c513a289e, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4586885206515280, guid: 8ba73e388d0c8ac4dbdcb53c513a289e, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4586885206515280, guid: 8ba73e388d0c8ac4dbdcb53c513a289e, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4586885206515280, guid: 8ba73e388d0c8ac4dbdcb53c513a289e, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4586885206515280, guid: 8ba73e388d0c8ac4dbdcb53c513a289e, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114847265582476508, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
+        type: 2}
+      propertyPath: _depthOfFieldTargetFocus
+      value: 
+      objectReference: {fileID: 263643074}
+    - target: {fileID: 114847265582476508, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
+        type: 2}
+      propertyPath: bMat
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114015861163766132, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
+        type: 2}
+      propertyPath: config.xbox_gamepad
+      value: 
+      objectReference: {fileID: 880950806}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 8ba73e388d0c8ac4dbdcb53c513a289e, type: 2}
+  m_IsPrefabParent: 0
 --- !u!4 &795023791 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4977154548756268, guid: 497698989639e4891b3629ad7cc9146d,

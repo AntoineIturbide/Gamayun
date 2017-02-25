@@ -19,7 +19,10 @@ namespace Avatar2
 
 		public float trailDamp = 350f;
 
-		float speed;
+        [Range(0,1)]
+        public float distortion = 0.75f;
+
+        float speed;
 
 		// Update is called once per frame
 		void Update ()
@@ -33,17 +36,30 @@ namespace Avatar2
 
 		void LensBlurModif()
 		{
-			if (speed > minSpeedToBlur) 
-			{
-				effects.enabled = true;
-				effects.Distortion = 1f + (speed / distortionDamp);
-			} 
-			else 
-			{
-				effects.enabled = false;
-			}
+            //if (speed > minSpeedToBlur) 
+            //{
+            //	effects.enabled = true;
+            //} 
+            //else 
+            //{
+            //	effects.enabled = false;
+            //         }
+            float distortion = Mathf.InverseLerp(Mathf.Lerp(avatar.config.minThrustSpeed, avatar.config.maxThrustSpeed, 0.5f), avatar.config.maxThrustSpeed, avatar.state.thrust.get_value());
+            distortion *= this.distortion;
+            distortion = 1 - distortion;
+            distortion = Mathf.Clamp01(distortion);
+            if(distortion < 1)
+            {
+                effects.enabled = true;
+                effects.Distortion = distortion;
+            }
+            else
+            {
+                effects.enabled = false;
+            }
+            // Mathf.MoveTowards(effects.Distortion, 1f + (speed / distortionDamp), Time.deltaTime);
 
-		}
+        }
 
 		void TrailModif()
 		{

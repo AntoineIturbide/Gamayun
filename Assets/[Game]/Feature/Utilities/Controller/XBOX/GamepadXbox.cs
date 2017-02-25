@@ -5,6 +5,50 @@ using UnityEngine;
 
 namespace Utility.Controller
 {
+    public enum ButtonXbox
+    {
+        NONE,
+        A,
+        B,
+        X,
+        Y,
+        LEFT_BUMPER,
+        RIGHT_BUMPER,
+        START,
+        SELECT,
+        DPAD_LEFT,
+        DPAD_RIGHT,
+        DPAD_UP,
+        DPAD_DOWN,
+        LEFT_STICK_Z,
+        RIGHT_STICK_Z
+    }
+
+    public enum AxisPositiveXbox
+    {
+        NONE,
+        LEFT_STICK_X_POS,
+        LEFT_STICK_X_NEG,
+        LEFT_STICK_Y_POS,
+        LEFT_STICK_Y_NEG,
+        RIGHT_STICK_X_POS,
+        RIGHT_STICK_X_NEG,
+        RIGHT_STICK_Y_POS,
+        RIGHT_STICK_Y_NEG,
+        LEFT_TRIGGER,
+        RIGHT_TRIGGER
+    }
+
+    public enum AxisNegPosXbox
+    {
+        NONE,
+        LEFT_STICK_X,
+        LEFT_STICK_Y,
+        RIGHT_STICK_X,
+        RIGHT_STICK_Y,
+        TRIGGERS
+    }
+
     public class GamepadXbox : MonoBehaviour {
 
         #region Configuration
@@ -35,8 +79,7 @@ namespace Utility.Controller
         [SerializeField]
         internal Configuration config = new Configuration();
         #endregion
-
-
+        
         #region State
         // Face buttons
         InputButton a;
@@ -52,8 +95,7 @@ namespace Utility.Controller
         public InputTwoAxis left_stick;
         public InputTwoAxis right_stick;
         #endregion
-
-
+        
         #region Unity
         /*********
          * UNITY *
@@ -119,6 +161,24 @@ namespace Utility.Controller
         }
         #endregion
 
+        #region Get
+        public float GetAxisNegPos(AxisNegPosXbox axis)
+        {
+            switch (axis)
+            {
+                case AxisNegPosXbox.LEFT_STICK_X:
+                    return left_stick.value.x;
+                case AxisNegPosXbox.LEFT_STICK_Y:
+                    return left_stick.value.y;
+                case AxisNegPosXbox.RIGHT_STICK_X:
+                    return right_stick.value.x;
+                case AxisNegPosXbox.RIGHT_STICK_Y:
+                    return right_stick.value.y;
+                default:
+                    throw new System.NotImplementedException();
+            }
+        }
+        #endregion
     }
 
     public class InputButton : IInputButton

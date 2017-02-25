@@ -229,16 +229,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activatedEmissive: 4
   activatedLightIntensity: 2
-  deactivatedEmissive: 2
-  deactivatedLightIntensity: 0.5
-  timeBeforeRespawn: 180
+  deactivatedEmissive: 0
+  deactivatedLightIntensity: 0
+  timeBeforeRespawn: 99999
   controller: {fileID: 0}
   isActivated: 0
   activateParticle: {fileID: 1505969914312914, guid: 6236594eb4214f64b8f7e3310ca09792,
     type: 2}
   deactivateParticle: {fileID: 1959674100851170, guid: 70bb9259ab6d8c74cae2fe18d22e55ca,
     type: 2}
-  deactivatedScale: {x: 0.3, y: 0.3, z: 0.3}
+  deactivatedScale: {x: 0, y: 0, z: 0}
 --- !u!135 &135088315714458050
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -210,10 +210,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4698283581152350}
-  - component: {fileID: 114049704012338740}
+  - component: {fileID: 135848585730504526}
+  - component: {fileID: 54473805545628998}
+  - component: {fileID: 114694860951424736}
   m_Layer: 0
   m_Name: Bird
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -599,7 +601,7 @@ GameObject:
   - component: {fileID: 4586885206515280}
   - component: {fileID: 114571468847094014}
   m_Layer: 0
-  m_Name: Avatar_v0.2.0
+  m_Name: Avatar_v0.2.1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1133,7 +1135,7 @@ GameObject:
   - component: {fileID: 4462803389742452}
   - component: {fileID: 96953851425421466}
   m_Layer: 0
-  m_Name: Trail Renderer
+  m_Name: Trail Renderer Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1306,7 +1308,7 @@ GameObject:
   - component: {fileID: 4128911928513784}
   - component: {fileID: 96790609903643762}
   m_Layer: 0
-  m_Name: Trail Renderer (1)
+  m_Name: Trail Renderer Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2700,7 +2702,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1894811529139616}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2005, y: 0, z: -962}
+  m_LocalPosition: {x: 772, y: 404, z: -463}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4698283581152350}
@@ -3026,6 +3028,21 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
+--- !u!54 &54473805545628998
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1105120560226148}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!81 &81898836242566552
 AudioListener:
   m_ObjectHideFlags: 1
@@ -3336,29 +3353,13 @@ MonoBehaviour:
     inverseCursDispX: 0
     cursorDisplacementY: 2
     inverseCursDispY: 0
+    timeToReachTargetDisp: 2
     rotationAroundX: 4
     inverseRotAroundX: 0
+    timeToReachTargetRotX: 0.75
     rotationAroundZ: 3
     inverseRotAroundZ: 1
---- !u!114 &114049704012338740
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1105120560226148}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 178dae23920e38e48a4f3de3b9b83d6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 0}
-  leftTrail: {fileID: 0}
-  rightTrail: {fileID: 0}
-  effects: {fileID: 0}
-  minSpeedToTrail: 64
-  minSpeedToBlur: 64
-  distortionDamp: 1024
-  trailDamp: 500
+    timeToReachTargetRotZ: 0.75
 --- !u!114 &114097615869940860
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3598,6 +3599,26 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114694860951424736
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1105120560226148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41f3b805e6b2b0b45b134ecf81c3cced, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  avatar: {fileID: 114492523385169384}
+  anim: {fileID: 95366175716143942}
+  leftTrail: {fileID: 96953851425421466}
+  rightTrail: {fileID: 96790609903643762}
+  effects: {fileID: 0}
+  minSpeedToTrail: 48
+  minSpeedToBlur: 48
+  distortionDamp: 512
+  trailDamp: 350
 --- !u!114 &114706784369240128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3921,6 +3942,18 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1811115259463722}
   m_Enabled: 1
+--- !u!135 &135848585730504526
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1105120560226148}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 4
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!137 &137421908299663160
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

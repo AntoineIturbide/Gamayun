@@ -7203,31 +7203,15 @@ Prefab:
       propertyPath: bMat
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 114049704012338740, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: anim
-      value: 
-      objectReference: {fileID: 1680863409}
-    - target: {fileID: 114049704012338740, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: leftTrail
-      value: 
-      objectReference: {fileID: 946713188}
-    - target: {fileID: 114049704012338740, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: rightTrail
-      value: 
-      objectReference: {fileID: 1221217454}
-    - target: {fileID: 114049704012338740, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: effects
-      value: 
-      objectReference: {fileID: 116038365}
     - target: {fileID: 114015861163766132, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
         type: 2}
       propertyPath: config.xbox_gamepad
       value: 
       objectReference: {fileID: 880950806}
+    - target: {fileID: 1394661890074576, guid: 8ba73e388d0c8ac4dbdcb53c513a289e, type: 2}
+      propertyPath: m_Name
+      value: Avatar_v0.2.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8ba73e388d0c8ac4dbdcb53c513a289e, type: 2}
   m_IsPrefabParent: 0
@@ -32134,11 +32118,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4033186664487406, guid: dc34f92c42ffe41aa957f997ee280c4a,
     type: 2}
   m_PrefabInternal: {fileID: 1679463613}
---- !u!95 &1680863409 stripped
-Animator:
-  m_PrefabParentObject: {fileID: 95608822896496160, guid: fc835a06b91b95245b3c4ba206d2d24c,
-    type: 2}
-  m_PrefabInternal: {fileID: 1539115469}
 --- !u!1001 &1690876444
 Prefab:
   m_ObjectHideFlags: 0

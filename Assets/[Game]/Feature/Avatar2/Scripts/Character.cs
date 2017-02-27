@@ -60,6 +60,9 @@ namespace Avatar2
          *********/
         public class State
         {
+            // Translation
+            public Vector3 translation;
+
             // Rotation
             public Quaternion rotation;
             // Thrust
@@ -139,43 +142,52 @@ namespace Avatar2
 
         private void Behave(float dt)
         {
+            // Main Body
+            MainBody_Behave(dt);
 
+
+            // Cursor
+            Cursor_Behave(dt);
+
+            // Bird
+            Bird_Behave(dt);
+
+            #region Legacy
+            // Move toward bird
+            //current_character_position = transform.position;
+            //Vector3 current_bird_position = config.bird.position;
+            //Vector3 target_character_position = current_bird_position;
+            //// Smoothing
+            //const float time_to_reach_target = 8f;
+            //float dist_to_target = Vector3.Distance(current_character_position, current_bird_position);
+            //new_character_position =
+            //    time_to_reach_target > 0 ?
+            //    Vector3.MoveTowards(current_character_position, target_character_position, dist_to_target * dt * (1f / time_to_reach_target)) :
+            //    target_character_position;
+
+            //transform.position = new_character_position;
+            #endregion
+
+        }
+
+        private void MainBody_Behave(float dt)
+        {
+            MainBody_TranslationTick(dt);
+            MainBody_RotationTick(dt);
+            MainBody_ThrustTick(state.translation, dt);
+            MainBody_ApplyTransform();
+        }
+
+        private void MainBody_TranslationTick(float dt)
+        {
+            // Input
             var ctrl = config.controller.state;
-
-
-            float @float;
-            Vector3 vector3;
-            Quaternion quaternion;
-            Ray ray;
-            RaycastHit raycastHit;
-            
-            state.rotation = transform.rotation;
-
-            //////////////
-            // Rotation //
-            //////////////
-
-            // Rotation X (Left-Right)
-            @float = ctrl.rotation_around_x_stick.get_value();
-            //float stick_magnitude = Mathf.Abs(@float);
-            //@float = Mathf.Lerp(ctrl.y_translation_hit_bounds.get_value(), ctrl.rotation_around_x_stick.get_value(), stick_magnitude);
-            quaternion = Quaternion.AngleAxis(@float * config.rotationAroundAxisSpeed.x * dt, Vector3.right);
-            state.rotation *= quaternion;
-
-
-            // Rotation Z (Antero-Posterior)
-            @float = ctrl.rotation_around_z.get_value();
-            quaternion = Quaternion.AngleAxis(@float * config.rotationAroundAxisSpeed.z * dt, Vector3.forward);
-            state.rotation *= quaternion;
-
-            transform.rotation = state.rotation;
 
             /////////////////
             // Translation //
             /////////////////
 
             // Translation requirement
-            Vector3 current_character_position      = transform.position;
             Vector3     translation                     = Vector3.zero;
 
             // Thrust requirements requirement
@@ -185,6 +197,7 @@ namespace Avatar2
             // Thrust
             Vector3 thrust_translation = current_character_forward* current_character_thrust_speed;
             translation += thrust_translation * dt;
+
 #if USE_BOUND_TRANSLATION
             // Bound hit translation
             float x_stick_magnitude = Mathf.Abs(ctrl.rotation_around_z.get_value());
@@ -194,49 +207,49 @@ namespace Avatar2
                 (1 - y_stick_magnitude) * ctrl.y_translation_hit_bounds.get_value() * config.translationSpeed.y * (transform.rotation * Vector3.up);
             translation += bounds_hit_translation * dt;
 #endif
-            // Apply translation
-            Vector3 new_character_position = current_character_position + translation;
-            transform.position = new_character_position;
 
+            // Store translation
+            state.translation = translation;
+        }
 
-            //////////////////
-            // Thrust Speed //
-            //////////////////
-            translation = translation.normalized;
-            float up_down_modifier = Vector3.Dot(translation, -Vector3.up);
-            Debug.DrawRay(config.bird.position, translation, Color.red);
-            //up_down_modifier = Mathf.Sign(up_down_modifier);
-            up_down_modifier = up_down_modifier * 0.5f + 0.5f;
-            up_down_modifier = Mathf.SmoothStep(0, 1, up_down_modifier);
-            up_down_modifier = config.thrustTransition.Evaluate(up_down_modifier);
-            float target_thrust = Mathf.Lerp(config.minThrustSpeed, config.maxThrustSpeed, up_down_modifier);
-            state.thrust.set_target(target_thrust);
-            state.thrust.tick(Mathf.Lerp(config.rechMinThrustTimeMultiplicator, config.rechMaxThrustTimeMultiplicator, up_down_modifier) * dt);
-           // Debug.Log(state.thrust.get_value());
+        private void MainBody_RotationTick(float dt)
+        {
+            // Input
+            var ctrl = config.controller.state;
+
+            // Rotation requirement
+            Quaternion rotation = Quaternion.identity;
+            
+            //////////////////////
+            // Regular Rotation //
+            //////////////////////
+
+            // Rotation X (Left-Right)
+            float rot_around_x = ctrl.rotation_around_x_stick.get_value();
+            rot_around_x *= config.rotationAroundAxisSpeed.x;
+            rotation *= Quaternion.AngleAxis(rot_around_x * dt, Vector3.right);
+
+            // Rotation Z (Antero-Posterior)
+            float rot_around_z = ctrl.rotation_around_z.get_value();
+            rot_around_z *= config.rotationAroundAxisSpeed.z;
+            rotation *= Quaternion.AngleAxis(rot_around_z * dt, Vector3.forward);
 
 #if USE_BOUND_ROTATION
             ////////////////////
             // Bound Rotation //
             ////////////////////
 
-            // Translation requirement
-            Quaternion current_character_rotation = transform.rotation;
-            Quaternion rotation = Quaternion.identity;
+            // Rotation X (Left-Right)
+            float rot_around_x_bound = ctrl.y_translation_hit_bounds.get_value();
+            rot_around_x_bound *= config.rotationAroundAxisSpeed.x;
+            rotation *= Quaternion.AngleAxis(rot_around_x_bound * dt, -Vector3.right);
 
-            @float = ctrl.y_translation_hit_bounds.get_value();
-            rotation *= Quaternion.AngleAxis(@float * config.rotationAroundAxisSpeed.x * dt, -Vector3.right);
+            // Rotation Z (Antero-Posterior)
+            float rot_around_z_bound = ctrl.x_translation_hit_bounds.get_value();
+            rot_around_z_bound *= config.rotationAroundAxisSpeed.z;
+            rotation *= Quaternion.AngleAxis(rot_around_z_bound * dt, Vector3.up);
 
-            @float = ctrl.x_translation_hit_bounds.get_value();
-            rotation *= Quaternion.AngleAxis(@float * config.rotationAroundAxisSpeed.z * dt, Vector3.up);
-            //rotation *= Quaternion.Euler(
-            //    config.rotationAroundAxisSpeed.x * ctrl.x_translation_hit_bounds.get_value() * dt,
-            //    config.rotationAroundAxisSpeed.y * ctrl.y_translation_hit_bounds.get_value() * dt, 
-            //    0
-            //    );
-
-            Quaternion new_character_rotation = current_character_rotation * rotation;
-            transform.rotation = new_character_rotation;
-
+            #region Legacy
             //// Thrust requirements requirement
             //Vector3 current_character_forward = transform.rotation * Vector3.forward;
             //float current_character_thrust_speed = 128f;
@@ -254,30 +267,92 @@ namespace Avatar2
             //// Apply translation
             //Vector3 new_character_position = current_character_position + translation;
             //transform.position = new_character_position;
+            #endregion
 #endif
-
-            ///////////////////
-            // Bird & Cursor //
-            ///////////////////
-
-            Cursor_Behave(dt);
-            Bird_Behave(dt);
-
-            // Move toward bird
-            //current_character_position = transform.position;
-            //Vector3 current_bird_position = config.bird.position;
-            //Vector3 target_character_position = current_bird_position;
-            //// Smoothing
-            //const float time_to_reach_target = 8f;
-            //float dist_to_target = Vector3.Distance(current_character_position, current_bird_position);
-            //new_character_position =
-            //    time_to_reach_target > 0 ?
-            //    Vector3.MoveTowards(current_character_position, target_character_position, dist_to_target * dt * (1f / time_to_reach_target)) :
-            //    target_character_position;
-
-            //transform.position = new_character_position;
-
+            // Store rotation
+            state.rotation = rotation;
         }
+
+        private void MainBody_ApplyTransform()
+        {
+            MainBody_Rotate(state.rotation);
+            MainBody_Move(state.translation);
+        }
+
+        private void MainBody_Move(Vector3 translation)
+        {
+            Vector3 current_character_position      = transform.position;
+            Vector3 new_character_position          = current_character_position + translation;
+            
+            //Vector3 current_bird_position           = config.bird.transform.position;
+            //Vector3 local_current_bird_position     = (current_bird_position - current_character_position);
+            //Vector3 new_bird_position               = new_character_position + translation;
+
+            // Collision
+            Ray ray = new Ray(current_character_position, translation);
+            const float offset = 0.25f;
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, translation.magnitude + offset))
+            {
+                //new_bird_position = Vector3.MoveTowards(hit.point, current_bird_position, offset + offset);
+                //new_character_position = new_bird_position - local_current_bird_position;
+                new_character_position = Vector3.MoveTowards(hit.point, current_character_position, offset);
+
+                translation = Vector3.ProjectOnPlane(translation, hit.normal);
+
+                ray.origin = new_character_position;
+                ray.direction = translation.normalized;
+
+                //new_character_position = new_character_position + translation;
+
+
+                if (Physics.Raycast(ray, out hit, translation.magnitude + offset))
+                {
+                    // new_bird_position = Vector3.MoveTowards(hit.point, new_bird_position, offset);
+                    // new_character_position = new_bird_position - local_current_bird_position;
+                    new_character_position = Vector3.MoveTowards(hit.point, new_character_position, offset);
+                }
+                else
+                {
+                    //new_character_position = new_character_position + translation;
+                    new_character_position = new_character_position + translation;
+                }
+
+            }
+
+            // Apply position
+            transform.position = new_character_position;
+        }
+
+        private void MainBody_Rotate(Quaternion rotation)
+        {
+            Quaternion current_character_rotation   = transform.rotation;
+            Quaternion new_character_rotation       = current_character_rotation * rotation;
+
+            // Apply position
+            transform.rotation = new_character_rotation;
+        }
+
+
+        private void MainBody_ThrustTick(Vector3 translation, float dt)
+        {
+            //////////////////
+            // Thrust Speed //
+            //////////////////
+            translation = translation.normalized;
+
+            float up_down_modifier = Vector3.Dot(translation, -Vector3.up);
+            //Debug.DrawRay(config.bird.position, translation, Color.red);
+            up_down_modifier = up_down_modifier * 0.5f + 0.5f;
+            up_down_modifier = Mathf.SmoothStep(0, 1, up_down_modifier);
+            up_down_modifier = config.thrustTransition.Evaluate(up_down_modifier);
+
+            float target_thrust = Mathf.Lerp(config.minThrustSpeed, config.maxThrustSpeed, up_down_modifier);
+
+            state.thrust.set_target(target_thrust);
+            state.thrust.tick(Mathf.Lerp(config.rechMinThrustTimeMultiplicator, config.rechMaxThrustTimeMultiplicator, up_down_modifier) * dt);
+        }
+
 
         private void Bird_Behave(float dt)
         {

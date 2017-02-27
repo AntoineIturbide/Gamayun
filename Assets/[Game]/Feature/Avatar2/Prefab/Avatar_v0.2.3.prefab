@@ -601,7 +601,7 @@ GameObject:
   - component: {fileID: 4586885206515280}
   - component: {fileID: 114571468847094014}
   m_Layer: 0
-  m_Name: Avatar_v0.2.2
+  m_Name: Avatar_v0.2.3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ValidationCache Version="1" SchemaVersion="75">
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\Actor-Mixer Hierarchy\Default Work Unit.wwu" DateLow="66123601" DateHigh="30578515"/>
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\Attenuations\Default Work Unit.wwu" DateLow="66359228" DateHigh="30578515"/>
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\Audio Devices\Default Work Unit.wwu" DateLow="66309096" DateHigh="30578515"/>
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\Control Surface Sessions\Default Work Unit.wwu" DateLow="66284030" DateHigh="30578515"/>
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\Conversion Settings\Default Work Unit.wwu" DateLow="66188776" DateHigh="30578515"/>
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\Conversion Settings\Factory Conversion Settings.wwu" DateLow="3471719243" DateHigh="30578513"/>
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\Dynamic Dialogue\Default Work Unit.wwu" DateLow="66233896" DateHigh="30578515"/>
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\Effects\Default Work Unit.wwu" DateLow="66208830" DateHigh="30578515"/>
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\Effects\Factory Effects.wwu" DateLow="3472315825" DateHigh="30578513"/>
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\Events\Default Work Unit.wwu" DateLow="66133626" DateHigh="30578515"/>
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\Game Parameters\Default Work Unit.wwu" DateLow="66218855" DateHigh="30578515"/>
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\GIT_WwiseProject.wproj" DateLow="880108558" DateHigh="30578515"/>
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\Interactive Music Hierarchy\Default Work Unit.wwu" DateLow="66324134" DateHigh="30578515"/>
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\Master-Mixer Hierarchy\Default Work Unit.wwu" DateLow="66103548" DateHigh="30578515"/>
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\Mixing Sessions\Default Work Unit.wwu" DateLow="66168720" DateHigh="30578515"/>
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\Modulators\Default Work Unit.wwu" DateLow="66243923" DateHigh="30578515"/>
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\Presets\Default Work Unit.wwu" DateLow="66274005" DateHigh="30578515"/>
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\Queries\Default Work Unit.wwu" DateLow="66344190" DateHigh="30578515"/>
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\Queries\Factory Queries.wwu" DateLow="3471684146" DateHigh="30578513"/>
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\SoundBanks\Default Work Unit.wwu" DateLow="66299068" DateHigh="30578515"/>
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\Soundcaster Sessions\Default Work Unit.wwu" DateLow="66258967" DateHigh="30578515"/>
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\States\Default Work Unit.wwu" DateLow="66334162" DateHigh="30578515"/>
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\Switches\Default Work Unit.wwu" DateLow="66148667" DateHigh="30578515"/>
+	<ValidationCacheItem File="E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\Triggers\Default Work Unit.wwu" DateLow="66364241" DateHigh="30578515"/>
+</ValidationCache>

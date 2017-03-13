@@ -23,7 +23,7 @@ namespace Avatar2
             public Utility.Controller.GamepadXbox xbox_gamepad;
 
             
-            [Header("Cursor Displacement")]
+            [Header("Railshooter")]
             // Cursor Displacement X
             public Utility.Controller.AxisNegPosXbox cursorDisplacementX = Utility.Controller.AxisNegPosXbox.LEFT_STICK_X;
             public bool inverseCursDispX;
@@ -33,20 +33,21 @@ namespace Avatar2
             public bool inverseCursDispY;
             public float timeToReachTargetDisp = 2f;
 
-            [Header("Rotation")]
+            [Header("Orientation")]
             // Rotation Around X
             public Utility.Controller.AxisNegPosXbox rotationAroundX = Utility.Controller.AxisNegPosXbox.RIGHT_STICK_Y;
             public bool inverseRotAroundX = false;
             public float timeToReachTargetRotX = 0.75f;
 
-            //// Rotation Around Y
-            //public Utility.Controller.AxisNegPosXbox rotationAroundY;
-            //public bool inverseRotAroundY;
+            // Rotation Around Y
+            public Utility.Controller.AxisNegPosXbox rotationAroundY = Utility.Controller.AxisNegPosXbox.RIGHT_STICK_X;
+            public bool inverseRotAroundY = true;
+            public float timeToReachTargetRotY = 0.75f;
 
-            // Rotation Around Z
-            public Utility.Controller.AxisNegPosXbox rotationAroundZ = Utility.Controller.AxisNegPosXbox.RIGHT_STICK_X;
-            public bool inverseRotAroundZ = true;
-            public float timeToReachTargetRotZ = 0.75f;
+
+            [Header("Wings")]
+            public Utility.Controller.AxisPositiveXbox wings = Utility.Controller.AxisPositiveXbox.RIGHT_TRIGGER;
+            public float timeToReachTargetWings = 0.75f;
 
         }
 
@@ -66,22 +67,22 @@ namespace Avatar2
             ///////////////
 
             // Rotation Around X
-            public Smooth<float> rotation_around_x_stick;
-            public float rotation_around_x_stick_time_to_reach_target;
+            public Smooth<float> rotation_around_x;
+            public float rotation_around_x_time_to_reach_target;
             private float rotation_around_x_stick_tick(float current, float target, float dt)
             {
-                float time_to_reach_target = rotation_around_x_stick_time_to_reach_target;
+                float time_to_reach_target = rotation_around_x_time_to_reach_target;
                 return time_to_reach_target > 0 ?
                     Mathf.MoveTowards(current, target, dt * (2f * (1f / time_to_reach_target))) :
                     target;
             }
 
-            // Rotation Around Z
-            public Smooth<float> rotation_around_z;
-            public float rotation_around_z_time_to_reach_target;
-            private float rotation_around_z_tick(float current, float target, float dt)
+            // Rotation Around Y
+            public Smooth<float> rotation_around_y;
+            public float rotation_around_y_time_to_reach_target;
+            private float rotation_around_y_tick(float current, float target, float dt)
             {
-                float time_to_reach_target = rotation_around_z_time_to_reach_target;
+                float time_to_reach_target = rotation_around_y_time_to_reach_target;
                 return time_to_reach_target > 0 ?
                     Mathf.MoveTowards(current, target, dt * (2f * (1f / time_to_reach_target))) :
                     target;
@@ -122,20 +123,20 @@ namespace Avatar2
 
             public void Init(
                 float rotation_around_x_stick_time_to_reach_target,
-                float rotation_around_z_time_to_reach_target,
+                float rotation_around_y_time_to_reach_target,
                 float cursor_displacement_time_to_reach_target
                 )
             {
-                // Cursor Displacement
+                // Cursor Displacement (Rail Shooter)
                 cursor_displacement = new Smooth<Vector2>(Vector2.zero, cursor_displacement_tick);
                 this.cursor_displacement_time_to_reach_target = cursor_displacement_time_to_reach_target;
 
                 // Rotation Around X
-                rotation_around_x_stick = new Smooth<float>(0, rotation_around_x_stick_tick);
-                this.rotation_around_x_stick_time_to_reach_target = rotation_around_x_stick_time_to_reach_target;
-                // Rotation Around Z
-                rotation_around_z = new Smooth<float>(0, rotation_around_z_tick);
-                this.rotation_around_z_time_to_reach_target = rotation_around_z_time_to_reach_target;
+                rotation_around_x = new Smooth<float>(0, rotation_around_x_stick_tick);
+                this.rotation_around_x_time_to_reach_target = rotation_around_x_stick_time_to_reach_target;
+                // Rotation Around Y
+                rotation_around_y = new Smooth<float>(0, rotation_around_y_tick);
+                this.rotation_around_y_time_to_reach_target = rotation_around_y_time_to_reach_target;
 
                 // X Translation
                 x_translation_hit_bounds = new Smooth<float>(0, x_translation_hit_bounds_tick);
@@ -148,13 +149,15 @@ namespace Avatar2
                 // Cursor Displacement
                 cursor_displacement.tick(dt);
 
-                // Rotation Around X
+                // Railshooter
                 y_translation_hit_bounds.tick(dt);
-                rotation_around_x_stick.tick(dt);
-                // Rotation Around Y
                 x_translation_hit_bounds.tick(dt);
-                // Rotation Around Z
-                rotation_around_z.tick(dt);
+
+                // Orientation
+                // Rotation Around X
+                rotation_around_x.tick(dt);
+                // Rotation Around Y
+                rotation_around_y.tick(dt);
             }
             #endregion
 
@@ -191,7 +194,7 @@ namespace Avatar2
             // Initialize State
             state.Init(
                 config.timeToReachTargetRotX,
-                config.timeToReachTargetRotZ,
+                config.timeToReachTargetRotY,
                 config.timeToReachTargetDisp                
                 );
         }
@@ -209,16 +212,14 @@ namespace Avatar2
                     )                
                 );
 
-            // Rotation Around X (Stick)
-            //state.rotation_around_x_stick.set_target(gamepad.right_stick.value.y);
-            state.rotation_around_x_stick.set_target(
+            // Rotation Around X
+            state.rotation_around_x.set_target(
                 (config.inverseRotAroundX ? -1 : 1) * gamepad.GetAxisNegPos(config.rotationAroundX)
                 );
 
-            // Rotation Around Z
-            //state.rotation_around_z.set_target(-gamepad.right_stick.value.x);
-            state.rotation_around_z.set_target(
-                (config.inverseRotAroundZ ? -1 : 1) * gamepad.GetAxisNegPos(config.rotationAroundZ)
+            // Rotation Around Y
+            state.rotation_around_y.set_target(
+                (config.inverseRotAroundY ? -1 : 1) * gamepad.GetAxisNegPos(config.rotationAroundY)
                 );
 
         }

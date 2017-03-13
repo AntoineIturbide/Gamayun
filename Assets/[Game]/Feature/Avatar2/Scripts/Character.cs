@@ -1,5 +1,5 @@
-﻿#define USE_BOUND_ROTATION
-#define USE_BOUND_TRANSLATION
+﻿//#define USE_BOUND_ROTATION
+//#define USE_BOUND_TRANSLATION
 
 using System;
 using System.Collections;
@@ -201,7 +201,7 @@ namespace Avatar2
 #if USE_BOUND_TRANSLATION
             // Bound hit translation
             float x_stick_magnitude = Mathf.Abs(ctrl.rotation_around_z.get_value());
-            float y_stick_magnitude = Mathf.Abs(ctrl.rotation_around_x_stick.get_value());
+            float y_stick_magnitude = Mathf.Abs(ctrl.rotation_around_x.get_value());
             Vector3 bounds_hit_translation =
                 (1 - x_stick_magnitude) * ctrl.x_translation_hit_bounds.get_value() * config.translationSpeed.x * (transform.rotation * Vector3.right) +
                 (1 - y_stick_magnitude) * ctrl.y_translation_hit_bounds.get_value() * config.translationSpeed.y * (transform.rotation * Vector3.up);
@@ -225,14 +225,22 @@ namespace Avatar2
             //////////////////////
 
             // Rotation X (Left-Right)
-            float rot_around_x = ctrl.rotation_around_x_stick.get_value();
+            float rot_around_x = ctrl.rotation_around_x.get_value();
             rot_around_x *= config.rotationAroundAxisSpeed.x;
             rotation *= Quaternion.AngleAxis(rot_around_x * dt, Vector3.right);
 
+            // Rotation Z (Dorso-Ventral)
+            float rot_around_y = ctrl.rotation_around_y.get_value();
+            rot_around_y *= config.rotationAroundAxisSpeed.z;
+            Quaternion world_rotation = Quaternion.AngleAxis(rot_around_y * dt, Vector3.up);
+            rotation *= (Quaternion.Inverse(transform.rotation) * world_rotation) * transform.rotation;
+            //rotation *= Quaternion.AngleAxis(rot_around_y * dt, Vector3.up);
+
+
             // Rotation Z (Antero-Posterior)
-            float rot_around_z = ctrl.rotation_around_z.get_value();
-            rot_around_z *= config.rotationAroundAxisSpeed.z;
-            rotation *= Quaternion.AngleAxis(rot_around_z * dt, Vector3.forward);
+            //float rot_around_z = ctrl.rotation_around_z.get_value();
+            //rot_around_z *= config.rotationAroundAxisSpeed.z;
+            //rotation *= Quaternion.AngleAxis(rot_around_z * dt, Vector3.forward);
 
 #if USE_BOUND_ROTATION
             ////////////////////
@@ -328,6 +336,8 @@ namespace Avatar2
         {
             Quaternion current_character_rotation   = transform.rotation;
             Quaternion new_character_rotation       = current_character_rotation * rotation;
+
+            //new_character_rotation *= Quaternion.Euler(Vector3.up * 20 * Time.deltaTime);
 
             // Apply position
             transform.rotation = new_character_rotation;

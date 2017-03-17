@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Avatar2
 {
@@ -19,13 +20,16 @@ namespace Avatar2
             [Header("Bird Animator")]
             // Character
             public Animator birdAnimator;
+
+            [Header("Wings")]
+            public Image airGauge;
+
         }
 
         // Configuration Instance
         public Configuration config;
         #endregion
-
-
+        
         #region State
         /*********
          * STATE *
@@ -56,7 +60,7 @@ namespace Avatar2
 
         private void Update()
         {
-
+            RefreshAirGauge();
         }
 
         private void FixedUpdate()
@@ -121,6 +125,14 @@ namespace Avatar2
             config.birdAnimator.SetFloat("Speed", config.character.state.thrust.get_value());
 
         }
+
+        private void RefreshAirGauge()
+        {
+            float air_gauge_value = config.character.state.air_gauge;
+            Vector3 new_scale = new Vector3(air_gauge_value, 1, 1);
+            config.airGauge.transform.localScale = new_scale;
+        }
+
         #endregion
     }
 }

@@ -52,15 +52,8 @@ namespace Avatar2
             public Vector3 ascendingGravity;
             public Vector3 descendingGravity;
             public Vector3 diveGravity;
-
-            [Serializable]
-            public class WingsConfiguration
-            {
-                public AnimationCurve impulse;
-            }
-
+            
             [Header("Wings")]
-            public WingsConfiguration wingsConfig;
             public AirPush.Configuration airPushConfig;
         }
 
@@ -86,6 +79,8 @@ namespace Avatar2
             public float air_gauge = 0;
             public float air_gauge_depletion = 0;
 
+            public AirPush air_push;
+
             // Thrust
             public Smooth<float> thrust;
             private float thrust_tick(float current, float target, float dt)
@@ -98,10 +93,11 @@ namespace Avatar2
                     target;
             }
 
-            public void Init(float config_start_thrust)
+            public void Init(float config_start_thrust, AirPush.Configuration air_push_cfg)
             {
                 // Thrust
                 thrust = new Smooth<float>(config_start_thrust, thrust_tick);
+                air_push = AirPush.Create(air_push_cfg);
             }
         }
 
@@ -153,7 +149,7 @@ namespace Avatar2
 
         private void Init()
         {
-            state.Init(config.minThrustSpeed);
+            state.Init(config.minThrustSpeed, config.airPushConfig);
         }
 
         private void WakeUp()
@@ -211,7 +207,7 @@ namespace Avatar2
                 public float ability_progress;
                 public Vector3 this_frame_translation;
             }
-            public State state;
+            public State state = new State();
             private AirPush() { }
             public static AirPush Create(Configuration config)
             {
@@ -225,16 +221,19 @@ namespace Avatar2
             }
             public void TryCast(float current_time)
             {
+                Debug.Log(RemainingCooldown(current_time));
                 if (IsOnCooldown(current_time))
                 {
                     float remaining_cooldown = RemainingCooldown(current_time);
                     string err_msg = string.Format("{0} is on cooldown, {1:0.00}s remaining.", ability_name, remaining_cooldown);
                     Exception e = new Exception(err_msg);
+                    throw e;
                 }
                 Cast(current_time);
             }
             public void Cast(float current_time)
             {
+                Debug.Log("Cast");
                 state.time_since_last_beginned_cast = current_time;
                 SetOnCooldown(current_time);
                 state.ability_progress = 0;
@@ -247,11 +246,13 @@ namespace Avatar2
                 float last_ability_progress = state.ability_progress;
                 float new_ability_progress = time_since_beginned_cast / config.ability_duration;
                 state.this_frame_translation = GetDeltaFrameTranslation(last_ability_progress, new_ability_progress);
+                state.ability_progress = new_ability_progress;
             }
             public Vector3 GetDeltaFrameTranslation(float last_progress, float current_progress)
             {
-                Vector3 last_displacement = config.translation_vector * config.translation_over_time.Evaluate(last_progress);
-                Vector3 current_displacement = config.translation_vector * config.translation_over_time.Evaluate(last_progress);
+                Vector3 translation_vector = config.translation_vector * config.height;
+                Vector3 last_displacement = translation_vector * config.translation_over_time.Evaluate(last_progress);
+                Vector3 current_displacement = translation_vector * config.translation_over_time.Evaluate(current_progress);
                 Vector3 delta_displacement = current_displacement - last_displacement;
                 return delta_displacement;
             }
@@ -266,7 +267,8 @@ namespace Avatar2
             }
             public bool IsOnCooldown(float current_time)
             {
-                return current_time >= state.time_since_last_set_on_cooldown + config.cooldown;
+                Debug.Log(string.Format("target : {0} | now : {1}", state.time_since_last_set_on_cooldown + config.cooldown, current_time));
+                return current_time < state.time_since_last_set_on_cooldown + config.cooldown;
             }
             public float RemainingCooldown(float current_time)
             {
@@ -277,6 +279,7 @@ namespace Avatar2
 
         private void MainBody_Behave(float dt)
         {
+            state.translation = Vector3.zero;
             MainBody_Wings(dt);
             MainBody_TranslationTick(dt);
             MainBody_RotationTick(dt);
@@ -333,23 +336,36 @@ namespace Avatar2
             
             state.stored_velocity += archimed_force;
 
-            const float gauge_scale = 0.50f;
-            const float gauge_depletion_rate = 1f;
 
-            float current_air_push_forward = state.air_gauge;
             var input = ctrl.GetWingsInput();
-            float air_push_input = input.value - input.last_value;
-            air_push_input = Mathf.Max(0, air_push_input * gauge_scale);
+            bool triggerAirPush = input.last_value < input.value;
+            if (triggerAirPush)
+            {
+                Debug.Log("TryCast");
+                state.air_push.TryCast(Time.fixedTime);
+            }
 
-            float current_air_gauge = state.air_gauge;
-            float pushed_air_gauge = current_air_gauge + air_push_input;
-            float depleted_air_gauge = Mathf.MoveTowards(pushed_air_gauge, 0, dt * gauge_depletion_rate * pushed_air_gauge);
-            float new_air_gauge = depleted_air_gauge;
-            state.air_gauge = new_air_gauge;
+            state.air_push.Tick(Time.fixedTime, dt);
+            Vector3 air_push_translation = state.air_push.GetThisFrameTranslation();
+            state.translation += air_push_translation;
 
-            // Push up
-            float depletion = Mathf.Abs(pushed_air_gauge - depleted_air_gauge);
-            state.air_gauge_depletion = depletion;
+            //const float gauge_scale = 0.50f;
+            //const float gauge_depletion_rate = 1f;
+
+            //float current_air_push_forward = state.air_gauge;
+            //var input = ctrl.GetWingsInput();
+            //float air_push_input = input.value - input.last_value;
+            //air_push_input = Mathf.Max(0, air_push_input * gauge_scale);
+
+            //float current_air_gauge = state.air_gauge;
+            //float pushed_air_gauge = current_air_gauge + air_push_input;
+            //float depleted_air_gauge = Mathf.MoveTowards(pushed_air_gauge, 0, dt * gauge_depletion_rate * pushed_air_gauge);
+            //float new_air_gauge = depleted_air_gauge;
+            //state.air_gauge = new_air_gauge;
+
+            //// Push up
+            //float depletion = Mathf.Abs(pushed_air_gauge - depleted_air_gauge);
+            //state.air_gauge_depletion = depletion;
         }
 
         private void MainBody_TranslationTick(float dt)
@@ -392,7 +408,7 @@ namespace Avatar2
 #endif
 
             // Store translation
-            state.translation = translation;
+            state.translation += translation;
         }
 
         private void MainBody_RotationTick(float dt)

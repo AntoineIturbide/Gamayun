@@ -3310,16 +3310,16 @@ MonoBehaviour:
   config:
     character: {fileID: 114492523385169384}
     xbox_gamepad: {fileID: 0}
-    cursorDisplacementX: 3
-    inverseCursDispX: 0
-    cursorDisplacementY: 4
-    inverseCursDispY: 0
-    timeToReachTargetDisp: 2
+    cursorDisplacementX: 1
+    inverseCursDispX: 1
+    cursorDisplacementY: 2
+    inverseCursDispY: 1
+    timeToReachTargetDisp: 1
     rotationAroundX: 2
-    inverseRotAroundX: 0
+    inverseRotAroundX: 1
     timeToReachTargetRotX: 0.75
-    rotationAroundY: 3
-    inverseRotAroundY: 1
+    rotationAroundY: 1
+    inverseRotAroundY: 0
     timeToReachTargetRotY: 0.75
     wings: 10
 --- !u!114 &114097615869940860
@@ -3509,9 +3509,40 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
-    rechMinThrustTimeMultiplicator: 0.125
+    rechMinThrustTimeMultiplicator: 4
     rechMaxThrustTimeMultiplicator: 8
-    gravity: {x: 0, y: -64, z: 0}
+    ascendingGravity: {x: 0, y: -128, z: 0}
+    descendingGravity: {x: 0, y: -256, z: 0}
+    diveGravity: {x: 0, y: -512, z: 0}
+    airPushConfig:
+      height: 256
+      ability_duration: 2
+      cooldown: 2
+      translation_over_time:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 2
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - serializedVersion: 2
+          time: 0.14666446
+          value: 0.2122393
+          inSlope: 2.8293695
+          outSlope: 2.8293695
+          tangentMode: 0
+        - serializedVersion: 2
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      translation_vector: {x: 0.2, y: 0.8, z: 0}
 --- !u!114 &114510860174757734
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3637,7 +3668,7 @@ MonoBehaviour:
   minSpeedToBlur: 128
   distortionDamp: 512
   trailDamp: 350
-  distortion: 1
+  distortion: 0.487
 --- !u!114 &114706784369240128
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -51,6 +51,7 @@ namespace Avatar2
             [Header("Gravity")]
             public Vector3 ascendingGravity;
             public Vector3 descendingGravity;
+            public Vector3 diveGravity;
 
             [Serializable]
             public class WingsConfiguration
@@ -208,12 +209,18 @@ namespace Avatar2
             // 1 = Deployed
             var wingsInput = ctrl.GetWingsInput();
             float wings_deployment = (1 - wingsInput.value);
-            Vector3 redirected_velocity = Vector3.Slerp(state.stored_velocity, transform.forward * state.stored_velocity.magnitude, wings_deployment);
+            Vector3 original_velocity = state.stored_velocity;
+            Vector3 regular_redirected_velocity = transform.forward * original_velocity.magnitude;
+            Vector3 dive_redirected_velocity = Vector3.Project(original_velocity, Vector3.up) + Vector3.ProjectOnPlane(original_velocity, Vector3.up).magnitude * Vector3.ProjectOnPlane(transform.forward, Vector3.up).normalized;
+            //Vector3 redirected_velocity = Vector3.Slerp(state.stored_velocity, transform.forward * state.stored_velocity.magnitude, wings_deployment);
+            Vector3 redirected_velocity = Vector3.Lerp(dive_redirected_velocity, regular_redirected_velocity, wings_deployment);
 
             // Gravity
             float ascending_descending_ratio = Vector3.Dot(Vector3.up, transform.forward) * 0.5f + 0.5f;
             ascending_descending_ratio *= wings_deployment;
-            state.stored_velocity += Vector3.Lerp(config.descendingGravity, config.ascendingGravity, ascending_descending_ratio) * dt;
+            Vector3 gravity = Vector3.Lerp(config.descendingGravity, config.ascendingGravity, ascending_descending_ratio);
+                    gravity = Vector3.Lerp(gravity, config.diveGravity, 1 - wings_deployment);
+            state.stored_velocity += gravity * dt;
             
             // ARCHIMED
             float archimed_strengh = 0.75f;
@@ -222,7 +229,7 @@ namespace Avatar2
             // 1 = parallel to ground
             float archimed_ratio = 1 - Mathf.Abs(Vector3.Dot(Vector3.up, transform.forward));
             archimed_ratio *= archimed_strengh;
-            archimed_ratio *= wingsInput.value;
+            archimed_ratio *= wings_deployment;
 
             // Redirected toward facing direction
             float time_to_reach_target_redirected_velocity = 0.125f;
@@ -284,7 +291,7 @@ namespace Avatar2
             const float air_push_strengh = 1024f;
             Vector3 air_push_acceleration = (transform.rotation * new Vector3(0f, 1f, 0.25f).normalized) * state.air_gauge_depletion * air_push_strengh;
             //state.stored_velocity += air_push_acceleration * dt;
-            translation += air_push_acceleration * dt;
+            translation += air_push_acceleration;
             
             // Stored velocity
             translation += state.stored_velocity * dt;

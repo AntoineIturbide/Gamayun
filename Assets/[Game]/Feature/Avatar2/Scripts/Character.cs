@@ -61,6 +61,7 @@ namespace Avatar2
 
             [Header("Wings")]
             public WingsConfiguration wingsConfig;
+            public AirPush.Configuration airPushConfig;
         }
 
         // Configuration Instance
@@ -189,6 +190,90 @@ namespace Avatar2
             #endregion
 
         }
+
+        #region Wings
+        public class AirPush
+        {
+            const string ability_name = "Air Push";
+            [System.Serializable]
+            public class Configuration {
+                public float height;
+                public float ability_duration;
+                public float cooldown;
+                public AnimationCurve translation_over_time;
+                public Vector3 translation_vector;
+            }
+            public Configuration config;
+            public class State
+            {
+                public float time_since_last_beginned_cast;
+                public float time_since_last_set_on_cooldown;
+                public float ability_progress;
+                public Vector3 this_frame_translation;
+            }
+            public State state;
+            private AirPush() { }
+            public static AirPush Create(Configuration config)
+            {
+                AirPush o = new AirPush();
+                o.config = config;
+                return o;
+            }
+            public static void Init()
+            {
+
+            }
+            public void TryCast(float current_time)
+            {
+                if (IsOnCooldown(current_time))
+                {
+                    float remaining_cooldown = RemainingCooldown(current_time);
+                    string err_msg = string.Format("{0} is on cooldown, {1:0.00}s remaining.", ability_name, remaining_cooldown);
+                    Exception e = new Exception(err_msg);
+                }
+                Cast(current_time);
+            }
+            public void Cast(float current_time)
+            {
+                state.time_since_last_beginned_cast = current_time;
+                SetOnCooldown(current_time);
+                state.ability_progress = 0;
+            }
+            public void Tick(float current_time, float dt)
+            {
+                float time_since_beginned_cast = (current_time - state.time_since_last_beginned_cast);
+
+                // Calculate this frame tranlsation
+                float last_ability_progress = state.ability_progress;
+                float new_ability_progress = time_since_beginned_cast / config.ability_duration;
+                state.this_frame_translation = GetDeltaFrameTranslation(last_ability_progress, new_ability_progress);
+            }
+            public Vector3 GetDeltaFrameTranslation(float last_progress, float current_progress)
+            {
+                Vector3 last_displacement = config.translation_vector * config.translation_over_time.Evaluate(last_progress);
+                Vector3 current_displacement = config.translation_vector * config.translation_over_time.Evaluate(last_progress);
+                Vector3 delta_displacement = current_displacement - last_displacement;
+                return delta_displacement;
+            }
+            public Vector3 GetThisFrameTranslation()
+            {
+                return state.this_frame_translation;
+            }
+            // Cooldown
+            public void SetOnCooldown(float current_time)
+            {
+                state.time_since_last_set_on_cooldown = current_time;
+            }
+            public bool IsOnCooldown(float current_time)
+            {
+                return current_time >= state.time_since_last_set_on_cooldown + config.cooldown;
+            }
+            public float RemainingCooldown(float current_time)
+            {
+                return (state.time_since_last_set_on_cooldown + config.cooldown) - current_time;
+            }
+        }
+        #endregion
 
         private void MainBody_Behave(float dt)
         {

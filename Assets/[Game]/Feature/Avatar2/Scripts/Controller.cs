@@ -23,30 +23,30 @@ namespace Avatar2
             public Utility.Controller.GamepadXbox xbox_gamepad;
 
             
-            [Header("Cursor Displacement")]
+            [Header("Railshooter")]
             // Cursor Displacement X
-            public Utility.Controller.AxisNegPosXbox cursorDisplacementX = Utility.Controller.AxisNegPosXbox.LEFT_STICK_X;
+            public Utility.Controller.AxisNegPosXbox cursorDisplacementX = Utility.Controller.AxisNegPosXbox.RIGHT_STICK_X;
             public bool inverseCursDispX;
 
             // Cursor Displacement Y
-            public Utility.Controller.AxisNegPosXbox cursorDisplacementY = Utility.Controller.AxisNegPosXbox.LEFT_STICK_Y;
+            public Utility.Controller.AxisNegPosXbox cursorDisplacementY = Utility.Controller.AxisNegPosXbox.RIGHT_STICK_Y;
             public bool inverseCursDispY;
             public float timeToReachTargetDisp = 2f;
 
-            [Header("Rotation")]
+            [Header("Orientation")]
             // Rotation Around X
-            public Utility.Controller.AxisNegPosXbox rotationAroundX = Utility.Controller.AxisNegPosXbox.RIGHT_STICK_Y;
+            public Utility.Controller.AxisNegPosXbox rotationAroundX = Utility.Controller.AxisNegPosXbox.LEFT_STICK_Y;
             public bool inverseRotAroundX = false;
             public float timeToReachTargetRotX = 0.75f;
 
-            //// Rotation Around Y
-            //public Utility.Controller.AxisNegPosXbox rotationAroundY;
-            //public bool inverseRotAroundY;
-
-            // Rotation Around Z
-            public Utility.Controller.AxisNegPosXbox rotationAroundZ = Utility.Controller.AxisNegPosXbox.RIGHT_STICK_X;
-            public bool inverseRotAroundZ = true;
-            public float timeToReachTargetRotZ = 0.75f;
+            // Rotation Around Y
+            public Utility.Controller.AxisNegPosXbox rotationAroundY = Utility.Controller.AxisNegPosXbox.LEFT_STICK_X;
+            public bool inverseRotAroundY = true;
+            public float timeToReachTargetRotY = 0.75f;
+            
+            [Header("Wings")]
+            public Utility.Controller.AxisPositiveXbox wings = Utility.Controller.AxisPositiveXbox.RIGHT_TRIGGER;
+            //public float timeToReachTargetWings = 0.125f;
 
         }
 
@@ -66,22 +66,22 @@ namespace Avatar2
             ///////////////
 
             // Rotation Around X
-            public Smooth<float> rotation_around_x_stick;
-            public float rotation_around_x_stick_time_to_reach_target;
+            public Smooth<float> rotation_around_x;
+            public float rotation_around_x_time_to_reach_target;
             private float rotation_around_x_stick_tick(float current, float target, float dt)
             {
-                float time_to_reach_target = rotation_around_x_stick_time_to_reach_target;
+                float time_to_reach_target = rotation_around_x_time_to_reach_target;
                 return time_to_reach_target > 0 ?
                     Mathf.MoveTowards(current, target, dt * (2f * (1f / time_to_reach_target))) :
                     target;
             }
 
-            // Rotation Around Z
-            public Smooth<float> rotation_around_z;
-            public float rotation_around_z_time_to_reach_target;
-            private float rotation_around_z_tick(float current, float target, float dt)
+            // Rotation Around Y
+            public Smooth<float> rotation_around_y;
+            public float rotation_around_y_time_to_reach_target;
+            private float rotation_around_y_tick(float current, float target, float dt)
             {
-                float time_to_reach_target = rotation_around_z_time_to_reach_target;
+                float time_to_reach_target = rotation_around_y_time_to_reach_target;
                 return time_to_reach_target > 0 ?
                     Mathf.MoveTowards(current, target, dt * (2f * (1f / time_to_reach_target))) :
                     target;
@@ -119,48 +119,56 @@ namespace Avatar2
                     Mathf.MoveTowards(current, target, dt * (1f / time_to_reach_target)) :
                     target;
             }
+            
+            public void TickSmooth(float dt)
+            {
+                // Cursor Displacement
+                cursor_displacement.tick(dt);
+
+                // Railshooter
+                y_translation_hit_bounds.tick(dt);
+                x_translation_hit_bounds.tick(dt);
+
+                // Orientation
+                // Rotation Around X
+                rotation_around_x.tick(dt);
+                // Rotation Around Y
+                rotation_around_y.tick(dt);
+            }
+            #endregion
+
+            Utility.Controller.IInputVector<float> airPushInput;
 
             public void Init(
                 float rotation_around_x_stick_time_to_reach_target,
-                float rotation_around_z_time_to_reach_target,
+                float rotation_around_y_time_to_reach_target,
                 float cursor_displacement_time_to_reach_target
                 )
             {
-                // Cursor Displacement
+                // Cursor Displacement (Rail Shooter)
                 cursor_displacement = new Smooth<Vector2>(Vector2.zero, cursor_displacement_tick);
                 this.cursor_displacement_time_to_reach_target = cursor_displacement_time_to_reach_target;
 
                 // Rotation Around X
-                rotation_around_x_stick = new Smooth<float>(0, rotation_around_x_stick_tick);
-                this.rotation_around_x_stick_time_to_reach_target = rotation_around_x_stick_time_to_reach_target;
-                // Rotation Around Z
-                rotation_around_z = new Smooth<float>(0, rotation_around_z_tick);
-                this.rotation_around_z_time_to_reach_target = rotation_around_z_time_to_reach_target;
+                rotation_around_x = new Smooth<float>(0, rotation_around_x_stick_tick);
+                this.rotation_around_x_time_to_reach_target = rotation_around_x_stick_time_to_reach_target;
+                // Rotation Around Y
+                rotation_around_y = new Smooth<float>(0, rotation_around_y_tick);
+                this.rotation_around_y_time_to_reach_target = rotation_around_y_time_to_reach_target;
 
                 // X Translation
                 x_translation_hit_bounds = new Smooth<float>(0, x_translation_hit_bounds_tick);
                 // Y Translation
                 y_translation_hit_bounds = new Smooth<float>(0, y_translation_hit_bounds_tick);
             }
-
-            public void TickSmooth(float dt)
-            {
-                // Cursor Displacement
-                cursor_displacement.tick(dt);
-
-                // Rotation Around X
-                y_translation_hit_bounds.tick(dt);
-                rotation_around_x_stick.tick(dt);
-                // Rotation Around Y
-                x_translation_hit_bounds.tick(dt);
-                // Rotation Around Z
-                rotation_around_z.tick(dt);
-            }
-            #endregion
-
         }
 
         public State state = new State();
+        
+        public Utility.Controller.IInputVector<float> GetWingsInput()
+        {
+            return config.xbox_gamepad.GetAxisPositive(config.wings);
+        }
         #endregion
 
         #region Unity
@@ -191,7 +199,7 @@ namespace Avatar2
             // Initialize State
             state.Init(
                 config.timeToReachTargetRotX,
-                config.timeToReachTargetRotZ,
+                config.timeToReachTargetRotY,
                 config.timeToReachTargetDisp                
                 );
         }
@@ -204,21 +212,19 @@ namespace Avatar2
             //state.cursor_displacement.set_target(Vector2.Scale(gamepad.left_stick.value, new Vector2(1, 1)));
             state.cursor_displacement.set_target(
                 new Vector2(
-                    (config.inverseCursDispX ? -1 : 1) * gamepad.GetAxisNegPos(config.cursorDisplacementX),
-                    (config.inverseCursDispY ? -1 : 1) * gamepad.GetAxisNegPos(config.cursorDisplacementY)                    
+                    (config.inverseCursDispX ? -1 : 1) * gamepad.GetAxisNegPos(config.cursorDisplacementX).value,
+                    (config.inverseCursDispY ? -1 : 1) * gamepad.GetAxisNegPos(config.cursorDisplacementY).value
                     )                
                 );
 
-            // Rotation Around X (Stick)
-            //state.rotation_around_x_stick.set_target(gamepad.right_stick.value.y);
-            state.rotation_around_x_stick.set_target(
-                (config.inverseRotAroundX ? -1 : 1) * gamepad.GetAxisNegPos(config.rotationAroundX)
+            // Rotation Around X
+            state.rotation_around_x.set_target(
+                (config.inverseRotAroundX ? -1 : 1) * gamepad.GetAxisNegPos(config.rotationAroundX).value
                 );
 
-            // Rotation Around Z
-            //state.rotation_around_z.set_target(-gamepad.right_stick.value.x);
-            state.rotation_around_z.set_target(
-                (config.inverseRotAroundZ ? -1 : 1) * gamepad.GetAxisNegPos(config.rotationAroundZ)
+            // Rotation Around Y
+            state.rotation_around_y.set_target(
+                (config.inverseRotAroundY ? -1 : 1) * gamepad.GetAxisNegPos(config.rotationAroundY).value
                 );
 
         }

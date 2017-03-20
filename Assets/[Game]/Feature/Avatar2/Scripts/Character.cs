@@ -1,5 +1,5 @@
-﻿#define USE_BOUND_ROTATION
-#define USE_BOUND_TRANSLATION
+﻿//#define USE_BOUND_ROTATION
+//#define USE_BOUND_TRANSLATION
 
 using System;
 using System.Collections;
@@ -40,14 +40,27 @@ namespace Avatar2
             [Header("Rotation")]
             // Rotation
             public Vector3 rotationAroundAxisSpeed;
-
-
+            
             [Header("Thrust")]
             public float minThrustSpeed;
             public float maxThrustSpeed;
             public AnimationCurve thrustTransition;
             public float rechMinThrustTimeMultiplicator = 0.5f;
             public float rechMaxThrustTimeMultiplicator = 2.0f;
+            
+            [Header("Gravity")]
+            public Vector3 ascendingGravity;
+            public Vector3 descendingGravity;
+
+            [Serializable]
+            public class WingsConfiguration
+            {
+                public AnimationCurve impulse;
+            }
+
+            [Header("Wings")]
+            public WingsConfiguration wingsConfig;
+            public AirPush.Configuration airPushConfig;
         }
 
         // Configuration Instance
@@ -65,6 +78,13 @@ namespace Avatar2
 
             // Rotation
             public Quaternion rotation;
+            
+            // Velocity
+            public Vector3 stored_velocity;
+
+            public float air_gauge = 0;
+            public float air_gauge_depletion = 0;
+
             // Thrust
             public Smooth<float> thrust;
             private float thrust_tick(float current, float target, float dt)
@@ -170,12 +190,159 @@ namespace Avatar2
 
         }
 
+        #region Wings
+        public class AirPush
+        {
+            const string ability_name = "Air Push";
+            [System.Serializable]
+            public class Configuration {
+                public float height;
+                public float ability_duration;
+                public float cooldown;
+                public AnimationCurve translation_over_time;
+                public Vector3 translation_vector;
+            }
+            public Configuration config;
+            public class State
+            {
+                public float time_since_last_beginned_cast;
+                public float time_since_last_set_on_cooldown;
+                public float ability_progress;
+                public Vector3 this_frame_translation;
+            }
+            public State state;
+            private AirPush() { }
+            public static AirPush Create(Configuration config)
+            {
+                AirPush o = new AirPush();
+                o.config = config;
+                return o;
+            }
+            public static void Init()
+            {
+
+            }
+            public void TryCast(float current_time)
+            {
+                if (IsOnCooldown(current_time))
+                {
+                    float remaining_cooldown = RemainingCooldown(current_time);
+                    string err_msg = string.Format("{0} is on cooldown, {1:0.00}s remaining.", ability_name, remaining_cooldown);
+                    Exception e = new Exception(err_msg);
+                }
+                Cast(current_time);
+            }
+            public void Cast(float current_time)
+            {
+                state.time_since_last_beginned_cast = current_time;
+                SetOnCooldown(current_time);
+                state.ability_progress = 0;
+            }
+            public void Tick(float current_time, float dt)
+            {
+                float time_since_beginned_cast = (current_time - state.time_since_last_beginned_cast);
+
+                // Calculate this frame tranlsation
+                float last_ability_progress = state.ability_progress;
+                float new_ability_progress = time_since_beginned_cast / config.ability_duration;
+                state.this_frame_translation = GetDeltaFrameTranslation(last_ability_progress, new_ability_progress);
+            }
+            public Vector3 GetDeltaFrameTranslation(float last_progress, float current_progress)
+            {
+                Vector3 last_displacement = config.translation_vector * config.translation_over_time.Evaluate(last_progress);
+                Vector3 current_displacement = config.translation_vector * config.translation_over_time.Evaluate(last_progress);
+                Vector3 delta_displacement = current_displacement - last_displacement;
+                return delta_displacement;
+            }
+            public Vector3 GetThisFrameTranslation()
+            {
+                return state.this_frame_translation;
+            }
+            // Cooldown
+            public void SetOnCooldown(float current_time)
+            {
+                state.time_since_last_set_on_cooldown = current_time;
+            }
+            public bool IsOnCooldown(float current_time)
+            {
+                return current_time >= state.time_since_last_set_on_cooldown + config.cooldown;
+            }
+            public float RemainingCooldown(float current_time)
+            {
+                return (state.time_since_last_set_on_cooldown + config.cooldown) - current_time;
+            }
+        }
+        #endregion
+
         private void MainBody_Behave(float dt)
         {
+            MainBody_Wings(dt);
             MainBody_TranslationTick(dt);
             MainBody_RotationTick(dt);
             MainBody_ThrustTick(state.translation, dt);
             MainBody_ApplyTransform();
+        }
+
+        private void MainBody_Wings(float dt)
+        {
+            // Input
+            var ctrl = config.controller;
+
+            // Wings deployment
+            // 0 = Closed
+            // 1 = Deployed
+            var wingsInput = ctrl.GetWingsInput();
+            float wings_deployment = (1 - wingsInput.value);
+            Vector3 redirected_velocity = Vector3.Slerp(state.stored_velocity, transform.forward * state.stored_velocity.magnitude, wings_deployment);
+
+            // Gravity
+            float ascending_descending_ratio = Vector3.Dot(Vector3.up, transform.forward) * 0.5f + 0.5f;
+            ascending_descending_ratio *= wings_deployment;
+            state.stored_velocity += Vector3.Lerp(config.descendingGravity, config.ascendingGravity, ascending_descending_ratio) * dt;
+            
+            // ARCHIMED
+            float archimed_strengh = 0.75f;
+            // Archimed Ratio
+            // 0 = perpendicular to ground
+            // 1 = parallel to ground
+            float archimed_ratio = 1 - Mathf.Abs(Vector3.Dot(Vector3.up, transform.forward));
+            archimed_ratio *= archimed_strengh;
+            archimed_ratio *= wingsInput.value;
+
+            // Redirected toward facing direction
+            float time_to_reach_target_redirected_velocity = 0.125f;
+            float to_target_redirected_velocity = Vector3.Angle(state.stored_velocity, redirected_velocity);
+            float angle_redirected_velocity = time_to_reach_target_redirected_velocity > 0 ? (to_target_redirected_velocity * dt) / time_to_reach_target_redirected_velocity : to_target_redirected_velocity;
+            state.stored_velocity = Vector3.RotateTowards(state.stored_velocity, redirected_velocity, angle_redirected_velocity * Mathf.Deg2Rad, 0);
+
+            // Archimed Acceleration 
+            float down_force = Mathf.Min(state.stored_velocity.y, 0);
+            float compensated_force = down_force * (1 - archimed_ratio);
+            float time_to_reach_target = 0.25f;
+            float to_target = Mathf.Abs(down_force - compensated_force);
+            float archimed_acceleration = time_to_reach_target > 0 ? (to_target * dt) / time_to_reach_target : to_target;
+            // Archimed Force
+            Vector3 archimed_force = Vector3.up * archimed_acceleration;
+            
+            state.stored_velocity += archimed_force;
+
+            const float gauge_scale = 0.50f;
+            const float gauge_depletion_rate = 1f;
+
+            float current_air_push_forward = state.air_gauge;
+            var input = ctrl.GetWingsInput();
+            float air_push_input = input.value - input.last_value;
+            air_push_input = Mathf.Max(0, air_push_input * gauge_scale);
+
+            float current_air_gauge = state.air_gauge;
+            float pushed_air_gauge = current_air_gauge + air_push_input;
+            float depleted_air_gauge = Mathf.MoveTowards(pushed_air_gauge, 0, dt * gauge_depletion_rate * pushed_air_gauge);
+            float new_air_gauge = depleted_air_gauge;
+            state.air_gauge = new_air_gauge;
+
+            // Push up
+            float depletion = Mathf.Abs(pushed_air_gauge - depleted_air_gauge);
+            state.air_gauge_depletion = depletion;
         }
 
         private void MainBody_TranslationTick(float dt)
@@ -195,13 +362,22 @@ namespace Avatar2
             float       current_character_thrust_speed  = state.thrust.get_value();
 
             // Thrust
-            Vector3 thrust_translation = current_character_forward* current_character_thrust_speed;
-            translation += thrust_translation * dt;
+            Vector3 thrust_translation = current_character_forward* current_character_thrust_speed * dt;
+            translation += thrust_translation;
+
+            // Wings air push
+            const float air_push_strengh = 1024f;
+            Vector3 air_push_acceleration = (transform.rotation * new Vector3(0f, 1f, 0.25f).normalized) * state.air_gauge_depletion * air_push_strengh;
+            //state.stored_velocity += air_push_acceleration * dt;
+            translation += air_push_acceleration * dt;
+            
+            // Stored velocity
+            translation += state.stored_velocity * dt;
 
 #if USE_BOUND_TRANSLATION
             // Bound hit translation
             float x_stick_magnitude = Mathf.Abs(ctrl.rotation_around_z.get_value());
-            float y_stick_magnitude = Mathf.Abs(ctrl.rotation_around_x_stick.get_value());
+            float y_stick_magnitude = Mathf.Abs(ctrl.rotation_around_x.get_value());
             Vector3 bounds_hit_translation =
                 (1 - x_stick_magnitude) * ctrl.x_translation_hit_bounds.get_value() * config.translationSpeed.x * (transform.rotation * Vector3.right) +
                 (1 - y_stick_magnitude) * ctrl.y_translation_hit_bounds.get_value() * config.translationSpeed.y * (transform.rotation * Vector3.up);
@@ -225,14 +401,22 @@ namespace Avatar2
             //////////////////////
 
             // Rotation X (Left-Right)
-            float rot_around_x = ctrl.rotation_around_x_stick.get_value();
+            float rot_around_x = ctrl.rotation_around_x.get_value();
             rot_around_x *= config.rotationAroundAxisSpeed.x;
             rotation *= Quaternion.AngleAxis(rot_around_x * dt, Vector3.right);
 
+            // Rotation Z (Dorso-Ventral)
+            float rot_around_y = ctrl.rotation_around_y.get_value();
+            rot_around_y *= config.rotationAroundAxisSpeed.z;
+            Quaternion world_rotation = Quaternion.AngleAxis(rot_around_y * dt, Vector3.up);
+            rotation *= (Quaternion.Inverse(transform.rotation) * world_rotation) * transform.rotation;
+            //rotation *= Quaternion.AngleAxis(rot_around_y * dt, Vector3.up);
+
+
             // Rotation Z (Antero-Posterior)
-            float rot_around_z = ctrl.rotation_around_z.get_value();
-            rot_around_z *= config.rotationAroundAxisSpeed.z;
-            rotation *= Quaternion.AngleAxis(rot_around_z * dt, Vector3.forward);
+            //float rot_around_z = ctrl.rotation_around_z.get_value();
+            //rot_around_z *= config.rotationAroundAxisSpeed.z;
+            //rotation *= Quaternion.AngleAxis(rot_around_z * dt, Vector3.forward);
 
 #if USE_BOUND_ROTATION
             ////////////////////
@@ -328,6 +512,8 @@ namespace Avatar2
         {
             Quaternion current_character_rotation   = transform.rotation;
             Quaternion new_character_rotation       = current_character_rotation * rotation;
+
+            //new_character_rotation *= Quaternion.Euler(Vector3.up * 20 * Time.deltaTime);
 
             // Apply position
             transform.rotation = new_character_rotation;

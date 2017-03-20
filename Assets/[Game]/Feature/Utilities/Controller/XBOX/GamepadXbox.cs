@@ -58,6 +58,12 @@ namespace Utility.Controller
         [Serializable]
         internal class Configuration
         {
+            [Header("Triggers")]
+            // Left Trigger
+            public string left_trigger_axis_name;
+            // Right Trigger
+            public string right_trigger_axis_name;
+            
             [Header("Sticks")]
             // Left Stick
             // x
@@ -66,6 +72,7 @@ namespace Utility.Controller
             // y
             public string left_stick_y_axis_name;
             public bool inverse_left_stick_y;
+
             // Right Stick
             // x
             public string right_stick_x_axis_name;
@@ -90,6 +97,10 @@ namespace Utility.Controller
         // Bumpers
         InputButton left_bumper;
         InputButton right_bumper;
+
+        // Trigger
+        public InputAxis left_trigger;
+        public InputAxis right_trigger;
 
         // Sticks
         public InputTwoAxis left_stick;
@@ -120,6 +131,14 @@ namespace Utility.Controller
 
             // TODO
             // Bumpers
+
+            // Trigger
+            left_trigger = new InputAxis(
+                config.left_trigger_axis_name
+                );
+            right_trigger = new InputAxis(
+                config.right_trigger_axis_name
+                );
 
             // Sticks
             left_stick = new InputTwoAxis(
@@ -153,6 +172,10 @@ namespace Utility.Controller
             // TODO
             // Bumpers
 
+            // Triggers
+            left_trigger.Tick();
+            right_trigger.Tick();
+
             // Sticks
             left_stick.Tick();
 
@@ -162,18 +185,30 @@ namespace Utility.Controller
         #endregion
 
         #region Get
-        public float GetAxisNegPos(AxisNegPosXbox axis)
+        public IInputVector<float> GetAxisNegPos(AxisNegPosXbox axis)
         {
             switch (axis)
             {
                 case AxisNegPosXbox.LEFT_STICK_X:
-                    return left_stick.value.x;
+                    return left_stick.x;
                 case AxisNegPosXbox.LEFT_STICK_Y:
-                    return left_stick.value.y;
+                    return left_stick.y;
                 case AxisNegPosXbox.RIGHT_STICK_X:
-                    return right_stick.value.x;
+                    return right_stick.x;
                 case AxisNegPosXbox.RIGHT_STICK_Y:
-                    return right_stick.value.y;
+                    return right_stick.y;
+                default:
+                    throw new System.NotImplementedException();
+            }
+        }
+        public IInputVector<float> GetAxisPositive(AxisPositiveXbox axis)
+        {
+            switch (axis)
+            {
+                case AxisPositiveXbox.LEFT_TRIGGER:
+                    return left_trigger;
+                case AxisPositiveXbox.RIGHT_TRIGGER:
+                    return right_trigger;
                 default:
                     throw new System.NotImplementedException();
             }
@@ -294,24 +329,24 @@ namespace Utility.Controller
 
     public class InputTwoAxis : IInputVector<Vector2>
     {
-        private InputAxis   _x;
-        private InputAxis   _y;
+        public InputAxis   x;
+        public InputAxis   y;
 
         private Vector2     _last_value;
         private Vector2     _value;
 
         public InputTwoAxis(InputAxis x_axis, InputAxis y_axis)
         {
-            this._x = x_axis;
-            this._y = y_axis;
+            this.x = x_axis;
+            this.y = y_axis;
         }
 
         public void Tick()
         {
-            _x.Tick();
-            _y.Tick();
+            x.Tick();
+            y.Tick();
 
-            Vector2 new_value = new Vector2(_x.value, _y.value);
+            Vector2 new_value = new Vector2(x.value, y.value);
 
             _last_value = _value;
             _value      = new_value;

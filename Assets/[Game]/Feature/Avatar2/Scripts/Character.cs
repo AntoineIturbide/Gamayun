@@ -54,7 +54,9 @@ namespace Avatar2
             public Vector3 diveGravity;
             
             [Header("Wings")]
+            public WingsDeployment.Configuration wingsDeploymentConfig;
             public AirPush.Configuration airPushConfig;
+            
         }
 
         // Configuration Instance
@@ -79,7 +81,10 @@ namespace Avatar2
             public float air_gauge = 0;
             public float air_gauge_depletion = 0;
 
+            // Wings
+            public WingsDeployment wings_deployment;
             public AirPush air_push;
+            //public float wings_deployment;
 
             // Thrust
             public Smooth<float> thrust;
@@ -93,11 +98,16 @@ namespace Avatar2
                     target;
             }
 
-            public void Init(float config_start_thrust, AirPush.Configuration air_push_cfg)
+            public void Init(
+                float config_start_thrust,
+                AirPush.Configuration air_push_cfg,
+                WingsDeployment.Configuration wings_cfg
+                )
             {
                 // Thrust
                 thrust = new Smooth<float>(config_start_thrust, thrust_tick);
                 air_push = AirPush.Create(air_push_cfg);
+                wings_deployment = WingsDeployment.Create(wings_cfg);
             }
         }
 
@@ -149,7 +159,11 @@ namespace Avatar2
 
         private void Init()
         {
-            state.Init(config.minThrustSpeed, config.airPushConfig);
+            state.Init(
+                config.minThrustSpeed,
+                config.airPushConfig,
+                config.wingsDeploymentConfig
+                );
         }
 
         private void WakeUp()
@@ -161,8 +175,7 @@ namespace Avatar2
         {
             // Main Body
             MainBody_Behave(dt);
-
-
+            
             // Cursor
             Cursor_Behave(dt);
 
@@ -184,12 +197,89 @@ namespace Avatar2
 
             //transform.position = new_character_position;
             #endregion
-
         }
 
         #region Wings
+        #region WingsDeployment
+        public class WingsDeployment
+        {
+            const string ability_name = "Wings Deployment";
+            [System.Serializable]
+            public class Configuration
+            {
+                public float openingSpeed = 1;
+                public float closeingSpeed = 0;
+            }
+            public Configuration config;
+            public class State
+            {
+                public float wings_deployment = 1;
+            }
+            public State state = new State();
+            private WingsDeployment() { }
+            public static WingsDeployment Create(Configuration config)
+            {
+                WingsDeployment o = new WingsDeployment();
+                o.config = config;
+                return o;
+            }
+            public void Tick(float target_wings_deployment, float dt)
+            {
+                if(target_wings_deployment > state.wings_deployment)
+                {   // Opening
+                    if (config.openingSpeed <= 0)
+                    {
+                        state.wings_deployment = 0;
+                    }
+                    else
+                    {
+                        state.wings_deployment = Mathf.MoveTowards(
+                            state.wings_deployment,
+                            target_wings_deployment,
+                            config.openingSpeed * dt
+                        );
+                    }
+                }
+                else
+                {   // Closing
+                    if (config.closeingSpeed <= 0)
+                    {
+                        state.wings_deployment = 0;
+                    }
+                    else
+                    {
+                        state.wings_deployment = Mathf.MoveTowards(
+                            state.wings_deployment,
+                            target_wings_deployment,
+                            config.closeingSpeed * dt
+                        );
+                    }
+                }
+            }
+
+
+        }
+        #endregion
+        #region AirPush
         public class AirPush
         {
+            public class AbilityIsOnCooldownExeption : Exception
+            {
+                public AbilityIsOnCooldownExeption()
+                {
+                }
+
+                public AbilityIsOnCooldownExeption(string message)
+                    : base(message)
+                {
+                }
+
+                public AbilityIsOnCooldownExeption(string message, Exception inner)
+                    : base(message, inner)
+                {
+                }
+            }
+
             const string ability_name = "Air Push";
             [System.Serializable]
             public class Configuration {
@@ -226,7 +316,7 @@ namespace Avatar2
                 {
                     float remaining_cooldown = RemainingCooldown(current_time);
                     string err_msg = string.Format("{0} is on cooldown, {1:0.00}s remaining.", ability_name, remaining_cooldown);
-                    Exception e = new Exception(err_msg);
+                    AbilityIsOnCooldownExeption e = new AbilityIsOnCooldownExeption(err_msg);
                     throw e;
                 }
                 Cast(current_time);
@@ -276,6 +366,7 @@ namespace Avatar2
             }
         }
         #endregion
+        #endregion
 
         private void MainBody_Behave(float dt)
         {
@@ -297,6 +388,9 @@ namespace Avatar2
             // 1 = Deployed
             var wingsInput = ctrl.GetWingsInput();
             float wings_deployment = (1 - wingsInput.value);
+            state.wings_deployment.Tick(wings_deployment, dt);
+            wings_deployment = state.wings_deployment.state.wings_deployment;
+
             Vector3 original_velocity = state.stored_velocity;
             Vector3 regular_redirected_velocity = transform.forward * original_velocity.magnitude;
             Vector3 dive_redirected_velocity = Vector3.Project(original_velocity, Vector3.up) + Vector3.ProjectOnPlane(original_velocity, Vector3.up).magnitude * Vector3.ProjectOnPlane(transform.forward, Vector3.up).normalized;
@@ -335,16 +429,20 @@ namespace Avatar2
             Vector3 archimed_force = Vector3.up * archimed_acceleration;
             
             state.stored_velocity += archimed_force;
-
-
             var input = ctrl.GetWingsInput();
             bool triggerAirPush = input.last_value < input.value;
             if (triggerAirPush)
             {
                 Debug.Log("TryCast");
-                state.air_push.TryCast(Time.fixedTime);
+                try
+                {
+                    state.air_push.TryCast(Time.fixedTime);
+                }
+                catch (AirPush.AbilityIsOnCooldownExeption e)
+                {
+                    //Debug.Log(e.Message);
+                }
             }
-
             state.air_push.Tick(Time.fixedTime, dt);
             Vector3 air_push_translation = state.air_push.GetThisFrameTranslation();
             state.translation += air_push_translation;

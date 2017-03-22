@@ -3313,14 +3313,14 @@ MonoBehaviour:
     cursorDisplacementX: 1
     inverseCursDispX: 1
     cursorDisplacementY: 2
-    inverseCursDispY: 1
-    timeToReachTargetDisp: 1
+    inverseCursDispY: 0
+    timeToReachTargetDisp: 4
     rotationAroundX: 2
-    inverseRotAroundX: 1
-    timeToReachTargetRotX: 0.75
+    inverseRotAroundX: 0
+    timeToReachTargetRotX: 0.5
     rotationAroundY: 1
     inverseRotAroundY: 0
-    timeToReachTargetRotY: 0.75
+    timeToReachTargetRotY: 0.5
     wings: 10
 --- !u!114 &114097615869940860
 MonoBehaviour:
@@ -3497,14 +3497,14 @@ MonoBehaviour:
       - serializedVersion: 2
         time: 0
         value: 0
-        inSlope: 0
-        outSlope: 0
+        inSlope: 2
+        outSlope: 2
         tangentMode: 0
       - serializedVersion: 2
         time: 1
         value: 1
-        inSlope: 2
-        outSlope: 2
+        inSlope: 0
+        outSlope: 0
         tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -3514,8 +3514,11 @@ MonoBehaviour:
     ascendingGravity: {x: 0, y: -128, z: 0}
     descendingGravity: {x: 0, y: -256, z: 0}
     diveGravity: {x: 0, y: -512, z: 0}
+    wingsDeploymentConfig:
+      openingSpeed: 1
+      closeingSpeed: 1
     airPushConfig:
-      height: 256
+      height: 128
       ability_duration: 2
       cooldown: 2
       translation_over_time:
@@ -3528,10 +3531,10 @@ MonoBehaviour:
           outSlope: 0
           tangentMode: 0
         - serializedVersion: 2
-          time: 0.14666446
-          value: 0.2122393
-          inSlope: 2.8293695
-          outSlope: 2.8293695
+          time: 0.22760431
+          value: 0.47095078
+          inSlope: 2.2623944
+          outSlope: 2.2623944
           tangentMode: 0
         - serializedVersion: 2
           time: 1

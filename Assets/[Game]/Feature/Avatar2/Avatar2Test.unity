@@ -15522,11 +15522,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.size
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 4586885206515280, guid: 8ba73e388d0c8ac4dbdcb53c513a289e, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -15559,6 +15554,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114015861163766132, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
+        type: 2}
+      propertyPath: config.xbox_gamepad
+      value: 
+      objectReference: {fileID: 880950806}
     - target: {fileID: 114847265582476508, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
         type: 2}
       propertyPath: _depthOfFieldTargetFocus
@@ -15568,151 +15568,6 @@ Prefab:
         type: 2}
       propertyPath: bMat
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114015861163766132, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.xbox_gamepad
-      value: 
-      objectReference: {fileID: 880950806}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[2].time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[2].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[2].inSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[2].outSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[3].time
-      value: 0.41101393
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[3].value
-      value: 0.86125886
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[3].inSlope
-      value: 1.5658885
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[3].outSlope
-      value: 1.5658885
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[4].time
-      value: 0.58904225
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[4].value
-      value: 0.01966232
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[4].inSlope
-      value: 0.7098913
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[4].outSlope
-      value: 0.7098913
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[5].time
-      value: 0.70064306
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[5].value
-      value: 0.76420593
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[5].inSlope
-      value: 3.181994
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[5].outSlope
-      value: 3.181994
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[6].time
-      value: 0.8566673
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[6].value
-      value: 0.056583107
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[6].inSlope
-      value: 1.4537573
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[6].outSlope
-      value: 1.4537573
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[7].time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[7].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[1].time
-      value: 0.120664805
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[1].value
-      value: 0.21091583
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[1].inSlope
-      value: 3.159544
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.translation_over_time.m_Curve.Array.data[1].outSlope
-      value: 3.159544
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.ability_duration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114492523385169384, guid: 8ba73e388d0c8ac4dbdcb53c513a289e,
-        type: 2}
-      propertyPath: config.airPushConfig.height
-      value: 256
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8ba73e388d0c8ac4dbdcb53c513a289e, type: 2}

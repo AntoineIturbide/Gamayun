@@ -52,7 +52,13 @@ namespace Avatar2
             public Vector3 ascendingGravity;
             public Vector3 descendingGravity;
             public Vector3 diveGravity;
-            
+
+            [Header("Friction")]
+            public Vector3 ascendingFriction;
+            public Vector3 horizontalFriction;
+            public Vector3 descendingFriction;
+            public Vector3 diveFriction;
+
             [Header("Wings")]
             public WingsDeployment.Configuration wingsDeploymentConfig;
             public AirPush.Configuration airPushConfig;
@@ -200,6 +206,8 @@ namespace Avatar2
         }
 
         #region Wings
+
+        // Deployment
         #region WingsDeployment
         public class WingsDeployment
         {
@@ -260,6 +268,8 @@ namespace Avatar2
 
         }
         #endregion
+
+        // Air push
         #region AirPush
         public class AirPush
         {
@@ -335,6 +345,11 @@ namespace Avatar2
                 // Calculate this frame tranlsation
                 float last_ability_progress = state.ability_progress;
                 float new_ability_progress = time_since_beginned_cast / config.ability_duration;
+                if(new_ability_progress > 1f)
+                {
+                    state.this_frame_translation = Vector3.zero;
+                    return;
+                }
                 state.this_frame_translation = GetDeltaFrameTranslation(last_ability_progress, new_ability_progress);
                 state.ability_progress = new_ability_progress;
             }
@@ -366,12 +381,13 @@ namespace Avatar2
             }
         }
         #endregion
-        #endregion
 
+        #endregion
         private void MainBody_Behave(float dt)
         {
             state.translation = Vector3.zero;
             MainBody_Wings(dt);
+            //state.stored_velocity = Vector3.ClampMagnitude(state.stored_velocity, config.maxThrustSpeed);
             MainBody_TranslationTick(dt);
             MainBody_RotationTick(dt);
             MainBody_ThrustTick(state.translation, dt);
@@ -386,8 +402,8 @@ namespace Avatar2
             // Wings deployment
             // 0 = Closed
             // 1 = Deployed
-            var wingsInput = ctrl.GetWingsInput();
-            float wings_deployment = (1 - wingsInput.value);
+            var wings_input = ctrl.GetWingsInput();
+            float wings_deployment = (1 - wings_input.value);
             state.wings_deployment.Tick(wings_deployment, dt);
             wings_deployment = state.wings_deployment.state.wings_deployment;
 
@@ -422,7 +438,7 @@ namespace Avatar2
             // Archimed Acceleration 
             float down_force = Mathf.Min(state.stored_velocity.y, 0);
             float compensated_force = down_force * (1 - archimed_ratio);
-            float time_to_reach_target = 0.25f;
+            float time_to_reach_target = 0.125f;
             float to_target = Mathf.Abs(down_force - compensated_force);
             float archimed_acceleration = time_to_reach_target > 0 ? (to_target * dt) / time_to_reach_target : to_target;
             // Archimed Force
@@ -445,7 +461,8 @@ namespace Avatar2
             }
             state.air_push.Tick(Time.fixedTime, dt);
             Vector3 air_push_translation = state.air_push.GetThisFrameTranslation();
-            state.translation += air_push_translation;
+            air_push_translation = transform.rotation * air_push_translation;
+            state.translation += air_push_translation; 
 
             //const float gauge_scale = 0.50f;
             //const float gauge_depletion_rate = 1f;
@@ -464,6 +481,13 @@ namespace Avatar2
             //// Push up
             //float depletion = Mathf.Abs(pushed_air_gauge - depleted_air_gauge);
             //state.air_gauge_depletion = depletion;
+
+
+            // Friction
+            float velocity = state.stored_velocity.magnitude;
+            const float reduction_ratio = 64f;
+            float reduced_velocity = velocity - (velocity * dt * reduction_ratio);
+            //state.stored_velocity = state.stored_velocity.normalized * reduced_velocity;
         }
 
         private void MainBody_TranslationTick(float dt)
@@ -484,14 +508,8 @@ namespace Avatar2
 
             // Thrust
             Vector3 thrust_translation = current_character_forward* current_character_thrust_speed * dt;
-            translation += thrust_translation;
-
-            // Wings air push
-            const float air_push_strengh = 1024f;
-            Vector3 air_push_acceleration = (transform.rotation * new Vector3(0f, 1f, 0.25f).normalized) * state.air_gauge_depletion * air_push_strengh;
-            //state.stored_velocity += air_push_acceleration * dt;
-            translation += air_push_acceleration;
-            
+            //translation += thrust_translation;
+                        
             // Stored velocity
             translation += state.stored_velocity * dt;
 

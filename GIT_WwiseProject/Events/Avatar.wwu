@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{24963887-02AB-4426-B063-FA908463AEDF}" SchemaVersion="75">
+	<Events>
+		<WorkUnit Name="Avatar" ID="{24963887-02AB-4426-B063-FA908463AEDF}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Avatar_Brake" ID="{A9554EE6-770F-4017-8A1A-9C11335510C4}">
+					<ChildrenList>
+						<Action Name="Post Event" ID="{E5788792-30BF-4068-A4C1-5DA535C1950A}" ShortID="660725308" Type="PlayEvent" Scope="One" Global="false"/>
+					</ChildrenList>
+				</Event>
+				<Event Name="Avatar_Glide_Start" ID="{8FC901CA-0980-4E74-9CCC-5C053E5E857E}">
+					<ChildrenList>
+						<Action Name="Post Event" ID="{39F39423-BC09-49B6-94F0-561D5D9BDC95}" ShortID="550037590" Type="PlayEvent" Scope="One" Global="false"/>
+					</ChildrenList>
+				</Event>
+				<Event Name="Avatar_Stalling" ID="{71CDBC8B-DEBA-4FD6-AC34-8BAEE93A1628}">
+					<ChildrenList>
+						<Action Name="Post Event" ID="{892BF3FC-548C-4F71-B2C9-50C4270680EA}" ShortID="453747228" Type="PlayEvent" Scope="One" Global="false"/>
+					</ChildrenList>
+				</Event>
+				<Event Name="Avatar_Wings_Flap" ID="{A450A2E9-47A6-47B1-BFCB-D313049B423A}">
+					<ChildrenList>
+						<Action Name="Play" ID="{37D6949F-A62C-42B9-BD5B-BBF9BCF824BA}" ShortID="956198205" Type="Play" Scope="One" Global="false">
+							<ElementList>
+								<Element ID="{A9249C1A-2A74-4323-9ACB-B11EFD430F99}" Global="false">
+									<ObjectRef Name="Wings_Flap" ID="{A431EDF4-6F80-4318-AA1C-38C6FA5673CA}" WorkUnitID="{F3DF67C2-8B80-4ABE-812F-1C4C368BE21E}"/>
+								</Element>
+							</ElementList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Avatar_Scream" ID="{825A79B2-778B-44F5-923A-2FFBA9B458C3}">
+					<ChildrenList>
+						<Action Name="Post Event" ID="{C81C008A-72AD-4972-A92C-4971F2D165FE}" ShortID="622619218" Type="PlayEvent" Scope="One" Global="false"/>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

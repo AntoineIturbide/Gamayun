@@ -18,7 +18,7 @@
 							<Position X="0" Y="6"/>
 						</Module>
 						<Module>
-							<ObjectRef Name="Wings_Flap" ID="{A450A2E9-47A6-47B1-BFCB-D313049B423A}" WorkUnitID="{5D6D929C-102B-4CA8-9DE6-678250047D72}"/>
+							<ObjectRef Name="Avatar_Wings_Flap" ID="{A450A2E9-47A6-47B1-BFCB-D313049B423A}" WorkUnitID="{24963887-02AB-4426-B063-FA908463AEDF}"/>
 							<Position X="0" Y="7"/>
 						</Module>
 						<Module>

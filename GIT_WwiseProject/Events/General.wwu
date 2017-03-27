@@ -78,17 +78,6 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Wings_Flap" ID="{A450A2E9-47A6-47B1-BFCB-D313049B423A}">
-					<ChildrenList>
-						<Action Name="Play" ID="{37D6949F-A62C-42B9-BD5B-BBF9BCF824BA}" ShortID="956198205" Type="Play" Scope="One" Global="false">
-							<ElementList>
-								<Element ID="{A9249C1A-2A74-4323-9ACB-B11EFD430F99}" Global="false">
-									<ObjectRef Name="Wings_Flap" ID="{A431EDF4-6F80-4318-AA1C-38C6FA5673CA}" WorkUnitID="{F3DF67C2-8B80-4ABE-812F-1C4C368BE21E}"/>
-								</Element>
-							</ElementList>
-						</Action>
-					</ChildrenList>
-				</Event>
 				<Event Name="Dust_Stop" ID="{37C0AFF6-4B5E-4DF4-BB14-DDC05B1EC71F}">
 					<ChildrenList>
 						<Action Name="Stop" ID="{5EA8CD78-CD1C-4393-90AD-5411C326C054}" ShortID="150388882" Type="Stop" Scope="One" Global="false">
@@ -115,6 +104,21 @@
 								</Element>
 							</ElementList>
 						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Tree_Impact" ID="{F97E6980-A970-4C75-8345-56B9B905D816}">
+					<ChildrenList>
+						<Action Name="Post Event" ID="{9C7EB088-32F3-4575-A597-7396CC0AE4E1}" ShortID="489659020" Type="PlayEvent" Scope="One" Global="false"/>
+					</ChildrenList>
+				</Event>
+				<Event Name="Ground_Impact" ID="{7533C56F-F1A6-4167-B182-68553F796EEE}">
+					<ChildrenList>
+						<Action Name="Post Event" ID="{4FB665AD-4C42-4E71-9A24-63518DC4CBE9}" ShortID="910522460" Type="PlayEvent" Scope="One" Global="false"/>
+					</ChildrenList>
+				</Event>
+				<Event Name="Rock_Impact" ID="{7EC97178-96E1-434C-AA97-6C11C8102777}">
+					<ChildrenList>
+						<Action Name="Post Event" ID="{2CAD7DF4-3077-4233-BDE1-0283AD9E26B2}" ShortID="256445130" Type="PlayEvent" Scope="One" Global="false"/>
 					</ChildrenList>
 				</Event>
 			</ChildrenList>

@@ -199,6 +199,11 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Flower_Grow" ID="{F87D3ABD-8995-45F0-8916-4999C3C1A7BC}">
+					<ChildrenList>
+						<Action Name="Post Event" ID="{0DA3AE78-F40A-49F9-B6A0-92484514336F}" ShortID="252809673" Type="PlayEvent" Scope="One" Global="false"/>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

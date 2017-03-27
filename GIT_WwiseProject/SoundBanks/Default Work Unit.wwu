@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{0AE4B723-5037-403E-A203-CA76C02EBC66}" SchemaVersion="75">
+	<SoundBanks>
+		<WorkUnit Name="Default Work Unit" ID="{0AE4B723-5037-403E-A203-CA76C02EBC66}" PersistMode="Standalone">
+			<ChildrenList>
+				<SoundBank Name="Forest" ID="{BB33831D-EB3D-46C4-8CB7-C89CD2F861BB}">
+					<ObjectInclusionList>
+						<ObjectRef Name="Forest" ID="{2ADD02E3-6F75-4CD2-8035-1921425488AF}" WorkUnitID="{2ADD02E3-6F75-4CD2-8035-1921425488AF}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="Forest" ID="{CE081C80-4788-4FBD-8C1F-8EF922DBB3C4}" WorkUnitID="{F3DF67C2-8B80-4ABE-812F-1C4C368BE21E}" Filter="7" Origin="Manual"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+				<SoundBank Name="General" ID="{1B9A457A-D84A-4319-B485-7FE63B3A92CE}">
+					<ObjectInclusionList>
+						<ObjectRef Name="General" ID="{5459F89C-9513-4484-A7A9-0AD0F3823471}" WorkUnitID="{F3DF67C2-8B80-4ABE-812F-1C4C368BE21E}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="General" ID="{5D6D929C-102B-4CA8-9DE6-678250047D72}" WorkUnitID="{5D6D929C-102B-4CA8-9DE6-678250047D72}" Filter="7" Origin="Manual"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+			</ChildrenList>
+		</WorkUnit>
+	</SoundBanks>
+</WwiseDocument>

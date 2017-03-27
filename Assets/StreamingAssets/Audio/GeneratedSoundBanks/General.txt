@@ -1,0 +1,47 @@
+Event	ID	Name			Wwise Object Path	Notes
+	344778205	Wind_High_Stop			\General\Wind_High_Stop	
+	431171811	Wind_Gust			\General\Wind_Gust	
+	548087415	Wind_High_Start			\General\Wind_High_Start	
+	1128271304	Crystal_Get			\General\Crystal_Get	
+	1300825244	Dust_Stop			\General\Dust_Stop	
+	2040520663	Speed_Start			\General\Speed_Start	
+	2431342447	Crystal_Glow			\General\Crystal_Glow	
+	2898349872	Dust_Start			\General\Dust_Start	
+	3791449267	Wings_Flap			\General\Wings_Flap	
+
+Game Parameter	ID	Name			Wwise Object Path	Notes
+	1233584889	Up_Down			\Default Work Unit\Up_Down	
+	3755642206	Speed_Activated			\Default Work Unit\Speed_Activated	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	25267835	SFX_Flap_Wings_06	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Flap_Wings_06_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Wings_Flap\SFX_Flap_Wings_06		9903
+	33045596	SFX_Wind_Gust_07	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Wind_Gust_07_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Wind_Gust\SFX_Wind_Gust_07		53483
+	34358653	SFX_Glow_Crystal_01	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Glow_Crystal_01_0ED39DC9.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Crystal_Glow\SFX_Glow_Crystal_01		190331
+	60490939	SFX_Flap_Wings_05	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Flap_Wings_05_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Wings_Flap\SFX_Flap_Wings_05		10120
+	126573346	SFX_P_Speed_Up_Loop_01	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_P_Speed_Up_Loop_01_0ED39DC9.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Speed\SFX_P_Speed_Up_Loop_01		646279
+	149643528	SFX_Wind_Gust_15	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Wind_Gust_15_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Wind_Gust\SFX_Wind_Gust_15		64706
+	245460658	SFX_Flap_Wings_01	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Flap_Wings_01_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Wings_Flap\SFX_Flap_Wings_01		9451
+	333466490	SFX_Wind_Gust_04	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Wind_Gust_04_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Wind_Gust\SFX_Wind_Gust_04		45308
+	347059422	SFX_Flap_Wings_03	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Flap_Wings_03_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Wings_Flap\SFX_Flap_Wings_03		9856
+	366094998	SFX_Wind_Gust_01	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Wind_Gust_01_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Wind_Gust\SFX_Wind_Gust_01		31324
+	379095589	SFX_Wind_Gust_13	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Wind_Gust_13_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Wind_Gust\SFX_Wind_Gust_13		60286
+	475720587	AMB_Wind_High_Loop_01	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\AMB_Wind_High_Loop_01_9E684A3B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Wind_High\AMB_Wind_High_Loop_01		767699
+	543843378	SFX_Wind_Gust_11	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Wind_Gust_11_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Wind_Gust\SFX_Wind_Gust_11		45466
+	554947884	SFX_Get_Crystal_01	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Get_Crystal_01_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Crystal_Get\SFX_Get_Crystal_01		59476
+	565634302	SFX_Flap_Wings_04	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Flap_Wings_04_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Wings_Flap\SFX_Flap_Wings_04		9397
+	650576223	SFX_Wind_Gust_03	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Wind_Gust_03_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Wind_Gust\SFX_Wind_Gust_03		33409
+	663752376	SFX_Get_Crystal_03	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Get_Crystal_03_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Crystal_Get\SFX_Get_Crystal_03		60614
+	684435115	SFX_Wind_Gust_12	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Wind_Gust_12_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Wind_Gust\SFX_Wind_Gust_12		42768
+	717227740	SFX_Wind_Gust_10	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Wind_Gust_10_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Wind_Gust\SFX_Wind_Gust_10		33317
+	723982505	SFX_P_Dust_Loop_01	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_P_Dust_Loop_01_0ED39DC9.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Dust\SFX_P_Dust_Loop_01		789806
+	775930499	SFX_Wind_Gust_09	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Wind_Gust_09_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Wind_Gust\SFX_Wind_Gust_09		39885
+	838152671	SFX_Flap_Wings_02	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Flap_Wings_02_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Wings_Flap\SFX_Flap_Wings_02		9648
+	859954182	SFX_Wind_Gust_05	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Wind_Gust_05_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Wind_Gust\SFX_Wind_Gust_05		32737
+	910868277	SFX_Get_Crystal_02	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Get_Crystal_02_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Crystal_Get\SFX_Get_Crystal_02		61147
+	925086853	SFX_Wind_Gust_06	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Wind_Gust_06_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Wind_Gust\SFX_Wind_Gust_06		40797
+	927030321	SFX_Get_Crystal_04	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Get_Crystal_04_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Crystal_Get\SFX_Get_Crystal_04		60169
+	927668869	SFX_Wind_Gust_14	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Wind_Gust_14_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Wind_Gust\SFX_Wind_Gust_14		59238
+	927781739	SFX_Flap_Wings_07	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Flap_Wings_07_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Wings_Flap\SFX_Flap_Wings_07		9845
+	931578101	SFX_Wind_Gust_02	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Wind_Gust_02_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Wind_Gust\SFX_Wind_Gust_02		44010
+	1006313271	SFX_Wind_Gust_08	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\SFX_Wind_Gust_08_C47F2D1B.wem		\Actor-Mixer Hierarchy\Default Work Unit\General\Wind_Gust\SFX_Wind_Gust_08		31022
+

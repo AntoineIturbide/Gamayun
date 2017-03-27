@@ -1,0 +1,25 @@
+Event	ID	Name			Wwise Object Path	Notes
+	121420192	Waterfall_Start			\Forest\Waterfall_Start	
+	333335808	AMB_Forest_Stop			\Forest\AMB_Forest_Stop	
+	557071456	Touch_Grass_Stop			\Forest\Touch_Grass_Stop	
+	717165636	River_Stop			\Forest\River_Stop	
+	1396033513	AMB_Grass_Start			\Forest\AMB_Grass_Start	
+	1456296260	Touch_Leaf_Start			\Forest\Touch_Leaf_Start	
+	1494607340	AMB_Forest_Start			\Forest\AMB_Forest_Start	
+	2199972856	Touch_Leaf_Stop			\Forest\Touch_Leaf_Stop	
+	2427671096	River_Start			\Forest\River_Start	
+	2656094668	Waterfall_Stop			\Forest\Waterfall_Stop	
+	2988057335	Touch_Water_Start			\Forest\Touch_Water_Start	
+	3076372940	Touch_Grass_Start			\Forest\Touch_Grass_Start	
+	3242293763	AMB_Grass_Stop			\Forest\AMB_Grass_Stop	
+	4224829277	Touch_Water_Stop			\Forest\Touch_Water_Stop	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	145138795	AMB_Waterfall_Loop_01	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\AMB_Waterfall_Loop_01_9E684A3B.wem		\Actor-Mixer Hierarchy\Default Work Unit\Forest\Waterfall\AMB_Waterfall_Loop_01		915511
+	378009150	AMB_River_Loop_01	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\AMB_River_Loop_01_9E684A3B.wem		\Actor-Mixer Hierarchy\Default Work Unit\Forest\River\AMB_River_Loop_01		1190729
+	494316908	AMB_Grass_Touch_Loop_01	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\AMB_Grass_Touch_Loop_01_9E684A3B.wem		\Actor-Mixer Hierarchy\Default Work Unit\Forest\Grass_Touch\AMB_Grass_Touch_Loop_01		954617
+	732015784	AMB_Forest_Loop_01	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\AMB_Forest_Loop_01_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Forest\AMB_Forest\AMB_Forest_Loop_01		9878464
+	746857848	AMB_Grass_Loop_01	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\AMB_Grass_Loop_01_9E684A3B.wem		\Actor-Mixer Hierarchy\Default Work Unit\Forest\AMB_Grass\AMB_Grass_Loop_01		1621960
+	1046961311	AMB_Leaf_Touch_Loop_01	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\AMB_Leaf_Touch_Loop_01_9E684A3B.wem		\Actor-Mixer Hierarchy\Default Work Unit\Forest\Leaf_Touch\AMB_Leaf_Touch_Loop_01		952112
+	1061705468	AMB_Water_Touch_Loop_01	E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\SFX\AMB_Water_Touch_Loop_01_9E684A3B.wem		\Actor-Mixer Hierarchy\Default Work Unit\Forest\Water_Touch\AMB_Water_Touch_Loop_01		698872
+

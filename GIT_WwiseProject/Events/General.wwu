@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{5D6D929C-102B-4CA8-9DE6-678250047D72}" SchemaVersion="75">
+	<Events>
+		<WorkUnit Name="General" ID="{5D6D929C-102B-4CA8-9DE6-678250047D72}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Wind_Gust" ID="{B8D6D323-CF38-4833-BC64-1E60B5D7E5E8}">
+					<ChildrenList>
+						<Action Name="Play" ID="{2566B788-21B4-4C3E-BBFF-E800DEDE2AC2}" ShortID="137950335" Type="Play" Scope="One" Global="false">
+							<ElementList>
+								<Element ID="{657744F0-8774-4D8D-83D6-9988E21301DE}" Global="false">
+									<ObjectRef Name="Wind_Gust" ID="{6E660EF4-6788-425F-94FC-AC6B997240A1}" WorkUnitID="{F3DF67C2-8B80-4ABE-812F-1C4C368BE21E}"/>
+								</Element>
+							</ElementList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Crystal_Get" ID="{5A083003-86F5-4978-B478-CCBA7644AD32}">
+					<ChildrenList>
+						<Action Name="Play" ID="{111EEDB3-19E7-4E42-A6C4-E88142DFE916}" ShortID="324616336" Type="Play" Scope="One" Global="false">
+							<ElementList>
+								<Element ID="{ABB3C4C3-8E6D-47D6-9CE5-F4397D52C7B7}" Global="false">
+									<ObjectRef Name="Crystal_Get" ID="{30A7E07B-6863-4A33-A85F-E76B911F7401}" WorkUnitID="{F3DF67C2-8B80-4ABE-812F-1C4C368BE21E}"/>
+								</Element>
+							</ElementList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Crystal_Glow" ID="{A09622CE-758D-4FC0-8B33-A964BFA583D2}">
+					<ChildrenList>
+						<Action Name="Play" ID="{79052B38-254F-469E-BD82-E768475B8E04}" ShortID="858437136" Type="Play" Scope="One" Global="false">
+							<ElementList>
+								<Element ID="{319BE878-1871-4355-86D2-2D6960CAABA5}" Global="false">
+									<ObjectRef Name="Crystal_Glow" ID="{BE5B90B1-2721-431E-BC19-DBBD375799A7}" WorkUnitID="{F3DF67C2-8B80-4ABE-812F-1C4C368BE21E}"/>
+								</Element>
+							</ElementList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Dust_Start" ID="{C1C2CA91-BEE5-4C74-9671-CD5F9A38D099}">
+					<ChildrenList>
+						<Action Name="Play" ID="{1C1729E5-11F4-4477-B35B-4D298C44ACFE}" ShortID="580871050" Type="Play" Scope="One" Global="false">
+							<PropertyList>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
+							</PropertyList>
+							<ElementList>
+								<Element ID="{EB171273-76E5-476C-9E81-774A1E6ADEEA}" Global="false">
+									<ObjectRef Name="Dust" ID="{2F4D453E-AE19-4916-8B49-AE54D24CCF9B}" WorkUnitID="{F3DF67C2-8B80-4ABE-812F-1C4C368BE21E}"/>
+								</Element>
+							</ElementList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Speed_Start" ID="{B739F82A-E92E-4990-A5F7-C8304E27E4DB}">
+					<ChildrenList>
+						<Action Name="Play" ID="{DD971B5C-4425-4861-9160-A60F0847FA12}" ShortID="849386844" Type="Play" Scope="One" Global="false">
+							<PropertyList>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
+							</PropertyList>
+							<ElementList>
+								<Element ID="{4071B910-0D80-4226-B755-E0A43BED97D6}" Global="false">
+									<ObjectRef Name="Speed" ID="{13EC904E-7173-4155-AFE9-AA2D5C942E68}" WorkUnitID="{F3DF67C2-8B80-4ABE-812F-1C4C368BE21E}"/>
+								</Element>
+							</ElementList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Wind_High_Start" ID="{29CF48CC-E52E-4DFB-89D9-12E474BB2DA1}">
+					<ChildrenList>
+						<Action Name="Play" ID="{5E881A0F-D394-4411-90E6-D2BA657BB1E3}" ShortID="841593339" Type="Play" Scope="One" Global="false">
+							<PropertyList>
+								<Property Name="FadeTime" Type="Real64" Value="2"/>
+							</PropertyList>
+							<ElementList>
+								<Element ID="{42488D98-987B-4E56-9376-BD4463C07889}" Global="false">
+									<ObjectRef Name="Wind_High" ID="{61A00194-AE29-4E8E-8B67-B3E236F3CD0C}" WorkUnitID="{F3DF67C2-8B80-4ABE-812F-1C4C368BE21E}"/>
+								</Element>
+							</ElementList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Dust_Stop" ID="{37C0AFF6-4B5E-4DF4-BB14-DDC05B1EC71F}">
+					<ChildrenList>
+						<Action Name="Stop" ID="{5EA8CD78-CD1C-4393-90AD-5411C326C054}" ShortID="150388882" Type="Stop" Scope="One" Global="false">
+							<PropertyList>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
+							</PropertyList>
+							<ElementList>
+								<Element ID="{F0481B1E-221E-4C67-9FC8-81E77155BACB}" Global="false">
+									<ObjectRef Name="Dust" ID="{2F4D453E-AE19-4916-8B49-AE54D24CCF9B}" WorkUnitID="{F3DF67C2-8B80-4ABE-812F-1C4C368BE21E}"/>
+								</Element>
+							</ElementList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Wind_High_Stop" ID="{E448D9BA-B8F9-4EB1-8679-0EB5E13CA2C4}">
+					<ChildrenList>
+						<Action Name="Stop" ID="{90F72309-D306-4DF3-A4BF-FC09DDE6DA58}" ShortID="682989481" Type="Stop" Scope="One" Global="false">
+							<PropertyList>
+								<Property Name="FadeTime" Type="Real64" Value="2"/>
+							</PropertyList>
+							<ElementList>
+								<Element ID="{699089A2-B74C-4D46-98BA-F70267B340CD}" Global="false">
+									<ObjectRef Name="Wind_High" ID="{61A00194-AE29-4E8E-8B67-B3E236F3CD0C}" WorkUnitID="{F3DF67C2-8B80-4ABE-812F-1C4C368BE21E}"/>
+								</Element>
+							</ElementList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Tree_Impact" ID="{F97E6980-A970-4C75-8345-56B9B905D816}">
+					<ChildrenList>
+						<Action Name="Post Event" ID="{9C7EB088-32F3-4575-A597-7396CC0AE4E1}" ShortID="489659020" Type="PlayEvent" Scope="One" Global="false"/>
+					</ChildrenList>
+				</Event>
+				<Event Name="Ground_Impact" ID="{7533C56F-F1A6-4167-B182-68553F796EEE}">
+					<ChildrenList>
+						<Action Name="Post Event" ID="{4FB665AD-4C42-4E71-9A24-63518DC4CBE9}" ShortID="910522460" Type="PlayEvent" Scope="One" Global="false"/>
+					</ChildrenList>
+				</Event>
+				<Event Name="Rock_Impact" ID="{7EC97178-96E1-434C-AA97-6C11C8102777}">
+					<ChildrenList>
+						<Action Name="Post Event" ID="{2CAD7DF4-3077-4233-BDE1-0283AD9E26B2}" ShortID="256445130" Type="PlayEvent" Scope="One" Global="false"/>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

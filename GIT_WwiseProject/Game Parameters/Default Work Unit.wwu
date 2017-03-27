@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{89F2A422-D7CD-46BC-81FA-87DBA51C3837}" SchemaVersion="75">
+	<GameParameters>
+		<WorkUnit Name="Default Work Unit" ID="{89F2A422-D7CD-46BC-81FA-87DBA51C3837}" PersistMode="Standalone">
+			<ChildrenList>
+				<GameParameter Name="Up_Down" ID="{9A0B43EF-90DC-4C7D-BAEA-B9F72DFF05F2}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="0"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="Speed_Activated" ID="{E0DA44E3-C2FE-45AA-A12F-513BDE1E7B31}"/>
+			</ChildrenList>
+		</WorkUnit>
+	</GameParameters>
+</WwiseDocument>

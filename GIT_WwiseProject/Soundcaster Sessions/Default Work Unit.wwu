@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{192E7B31-0FF9-45BA-81D8-8AF46C7931A9}" SchemaVersion="75">
+	<SoundcasterSessions>
+		<WorkUnit Name="Default Work Unit" ID="{192E7B31-0FF9-45BA-81D8-8AF46C7931A9}" PersistMode="Standalone">
+			<ChildrenList>
+				<SoundcasterSession Name="Mix" ID="{9B5F9AD9-DD27-47DB-BE6E-2D156C5DB54B}">
+					<ModuleList>
+						<Module>
+							<ObjectRef Name="AMB_Forest_Start" ID="{BFBE0E0C-EA39-4E9A-B930-49B7252973F2}" WorkUnitID="{2ADD02E3-6F75-4CD2-8035-1921425488AF}"/>
+							<Position X="0" Y="0"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Crystal_Get" ID="{5A083003-86F5-4978-B478-CCBA7644AD32}" WorkUnitID="{5D6D929C-102B-4CA8-9DE6-678250047D72}"/>
+							<Position X="0" Y="5"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Speed_Start" ID="{B739F82A-E92E-4990-A5F7-C8304E27E4DB}" WorkUnitID="{5D6D929C-102B-4CA8-9DE6-678250047D72}"/>
+							<Position X="0" Y="6"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Avatar_Wings_Flap" ID="{A450A2E9-47A6-47B1-BFCB-D313049B423A}" WorkUnitID="{24963887-02AB-4426-B063-FA908463AEDF}"/>
+							<Position X="0" Y="7"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="AMB_Forest_Stop" ID="{02AADA5C-7566-40FC-B98E-EDF26FF25CC4}" WorkUnitID="{2ADD02E3-6F75-4CD2-8035-1921425488AF}"/>
+							<Position X="1" Y="0"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="River_Start" ID="{60019640-300B-4E81-B66B-346DA9C0EFA4}" WorkUnitID="{2ADD02E3-6F75-4CD2-8035-1921425488AF}"/>
+							<Position X="1" Y="1"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Touch_Grass_Stop" ID="{B320CFA8-9C78-431D-8169-72A168F551AE}" WorkUnitID="{2ADD02E3-6F75-4CD2-8035-1921425488AF}"/>
+							<Position X="1" Y="2"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Touch_Water_Start" ID="{73F2FE16-4CEB-4D10-9F15-011F9A195945}" WorkUnitID="{2ADD02E3-6F75-4CD2-8035-1921425488AF}"/>
+							<Position X="1" Y="3"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Waterfall_Stop" ID="{BBA0F644-8772-4E00-865B-AC6B2C68CDB7}" WorkUnitID="{2ADD02E3-6F75-4CD2-8035-1921425488AF}"/>
+							<Position X="1" Y="4"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Crystal_Glow" ID="{A09622CE-758D-4FC0-8B33-A964BFA583D2}" WorkUnitID="{5D6D929C-102B-4CA8-9DE6-678250047D72}"/>
+							<Position X="1" Y="5"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Wind_Gust" ID="{B8D6D323-CF38-4833-BC64-1E60B5D7E5E8}" WorkUnitID="{5D6D929C-102B-4CA8-9DE6-678250047D72}"/>
+							<Position X="1" Y="6"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="AMB_Grass_Start" ID="{E5698900-454A-4A69-AF8D-848A46DDDFF3}" WorkUnitID="{2ADD02E3-6F75-4CD2-8035-1921425488AF}"/>
+							<Position X="2" Y="0"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="River_Stop" ID="{08A87DE7-BDF8-4BF3-A842-715F64EF5FE0}" WorkUnitID="{2ADD02E3-6F75-4CD2-8035-1921425488AF}"/>
+							<Position X="2" Y="1"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Touch_Leaf_Start" ID="{2994F0F7-1237-4F0A-A27F-6182E14790BD}" WorkUnitID="{2ADD02E3-6F75-4CD2-8035-1921425488AF}"/>
+							<Position X="2" Y="2"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Touch_Water_Stop" ID="{4B87A576-569C-4D1F-B38E-9B640DE03686}" WorkUnitID="{2ADD02E3-6F75-4CD2-8035-1921425488AF}"/>
+							<Position X="2" Y="3"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Dust_Start" ID="{C1C2CA91-BEE5-4C74-9671-CD5F9A38D099}" WorkUnitID="{5D6D929C-102B-4CA8-9DE6-678250047D72}"/>
+							<Position X="2" Y="5"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Wind_High_Start" ID="{29CF48CC-E52E-4DFB-89D9-12E474BB2DA1}" WorkUnitID="{5D6D929C-102B-4CA8-9DE6-678250047D72}"/>
+							<Position X="2" Y="6"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="AMB_Grass_Stop" ID="{6A18320D-2CFC-42CD-8427-E78207F9DED8}" WorkUnitID="{2ADD02E3-6F75-4CD2-8035-1921425488AF}"/>
+							<Position X="3" Y="0"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Touch_Grass_Start" ID="{7E9EFA0C-1F28-490C-847D-CE1421764FFE}" WorkUnitID="{2ADD02E3-6F75-4CD2-8035-1921425488AF}"/>
+							<Position X="3" Y="1"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Touch_Leaf_Stop" ID="{80B44871-86DC-4723-9721-DA22A36665AF}" WorkUnitID="{2ADD02E3-6F75-4CD2-8035-1921425488AF}"/>
+							<Position X="3" Y="2"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Waterfall_Start" ID="{CA8E2196-BBC9-4B92-A8E5-E9D8F380D4A9}" WorkUnitID="{2ADD02E3-6F75-4CD2-8035-1921425488AF}"/>
+							<Position X="3" Y="3"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Dust_Stop" ID="{37C0AFF6-4B5E-4DF4-BB14-DDC05B1EC71F}" WorkUnitID="{5D6D929C-102B-4CA8-9DE6-678250047D72}"/>
+							<Position X="3" Y="5"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Wind_High_Stop" ID="{E448D9BA-B8F9-4EB1-8679-0EB5E13CA2C4}" WorkUnitID="{5D6D929C-102B-4CA8-9DE6-678250047D72}"/>
+							<Position X="3" Y="6"/>
+						</Module>
+					</ModuleList>
+					<RTPCValueList ShowAll="true">
+						<RTPCValue>
+							<GameParameterRef Name="Speed_Activated" ID="{E0DA44E3-C2FE-45AA-A12F-513BDE1E7B31}"/>
+							<Value>100</Value>
+						</RTPCValue>
+						<RTPCValue>
+							<GameParameterRef Name="Up_Down" ID="{9A0B43EF-90DC-4C7D-BAEA-B9F72DFF05F2}"/>
+							<Value>34</Value>
+						</RTPCValue>
+					</RTPCValueList>
+					<CurrentStateList ShowAll="true"/>
+					<CurrentSwitchList ShowAll="true"/>
+				</SoundcasterSession>
+			</ChildrenList>
+		</WorkUnit>
+	</SoundcasterSessions>
+</WwiseDocument>

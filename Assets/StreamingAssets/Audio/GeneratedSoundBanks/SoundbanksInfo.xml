@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="11" SoundbankVersion="120">
+	<RootPaths>
+		<ProjectRoot>E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\</ProjectRoot>
+		<SourceFilesRoot>E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\.cache\Windows\</SourceFilesRoot>
+		<SoundBanksRoot>E:\TRAVAIL\Gamayun\GIT\Assets\StreamingAssets\Audio\GeneratedSoundBanks\</SoundBanksRoot>
+		<ExternalSourcesInputFile></ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>E:\TRAVAIL\Gamayun\GIT\GIT_WwiseProject\GeneratedSoundBanks\Windows\</ExternalSourcesOutputRoot>
+	</RootPaths>
+	<DialogueEvents/>
+	<StreamedFiles/>
+	<MediaFilesNotInAnyBank/>
+	<SoundBanks>
+		<SoundBank Id="133642231" Language="SFX">
+			<ObjectPath>\SoundBanks\Default Work Unit\General</ObjectPath>
+			<ShortName>General</ShortName>
+			<Path>General.bnk</Path>
+			<IncludedEvents>
+				<Event Id="1128271304" Name="Crystal_Get" ObjectPath="\Events\General\Crystal_Get"/>
+				<Event Id="2431342447" Name="Crystal_Glow" ObjectPath="\Events\General\Crystal_Glow" MaxAttenuation="30.000000"/>
+				<Event Id="2898349872" Name="Dust_Start" ObjectPath="\Events\General\Dust_Start"/>
+				<Event Id="1300825244" Name="Dust_Stop" ObjectPath="\Events\General\Dust_Stop" MaxAttenuation="0.000000"/>
+				<Event Id="2040520663" Name="Speed_Start" ObjectPath="\Events\General\Speed_Start"/>
+				<Event Id="431171811" Name="Wind_Gust" ObjectPath="\Events\General\Wind_Gust"/>
+				<Event Id="548087415" Name="Wind_High_Start" ObjectPath="\Events\General\Wind_High_Start"/>
+				<Event Id="344778205" Name="Wind_High_Stop" ObjectPath="\Events\General\Wind_High_Stop" MaxAttenuation="0.000000"/>
+				<Event Id="3791449267" Name="Wings_Flap" ObjectPath="\Events\General\Wings_Flap"/>
+			</IncludedEvents>
+			<IncludedMemoryFiles>
+				<File Id="25267835" Language="SFX">
+					<ShortName>SFX_Flap_Wings_06.wav</ShortName>
+					<Path>SFX\SFX_Flap_Wings_06_C47F2D1B.wem</Path>
+				</File>
+				<File Id="33045596" Language="SFX">
+					<ShortName>SFX_Wind_Gust_07.wav</ShortName>
+					<Path>SFX\SFX_Wind_Gust_07_C47F2D1B.wem</Path>
+				</File>
+				<File Id="34358653" Language="SFX">
+					<ShortName>SFX_Glow_Crystal_01.wav</ShortName>
+					<Path>SFX\SFX_Glow_Crystal_01_0ED39DC9.wem</Path>
+				</File>
+				<File Id="60490939" Language="SFX">
+					<ShortName>SFX_Flap_Wings_05.wav</ShortName>
+					<Path>SFX\SFX_Flap_Wings_05_C47F2D1B.wem</Path>
+				</File>
+				<File Id="126573346" Language="SFX">
+					<ShortName>SFX_P_Speed_Up_Loop_01.wav</ShortName>
+					<Path>SFX\SFX_P_Speed_Up_Loop_01_0ED39DC9.wem</Path>
+				</File>
+				<File Id="149643528" Language="SFX">
+					<ShortName>SFX_Wind_Gust_15.wav</ShortName>
+					<Path>SFX\SFX_Wind_Gust_15_C47F2D1B.wem</Path>
+				</File>
+				<File Id="245460658" Language="SFX">
+					<ShortName>SFX_Flap_Wings_01.wav</ShortName>
+					<Path>SFX\SFX_Flap_Wings_01_C47F2D1B.wem</Path>
+				</File>
+				<File Id="333466490" Language="SFX">
+					<ShortName>SFX_Wind_Gust_04.wav</ShortName>
+					<Path>SFX\SFX_Wind_Gust_04_C47F2D1B.wem</Path>
+				</File>
+				<File Id="347059422" Language="SFX">
+					<ShortName>SFX_Flap_Wings_03.wav</ShortName>
+					<Path>SFX\SFX_Flap_Wings_03_C47F2D1B.wem</Path>
+				</File>
+				<File Id="366094998" Language="SFX">
+					<ShortName>SFX_Wind_Gust_01.wav</ShortName>
+					<Path>SFX\SFX_Wind_Gust_01_C47F2D1B.wem</Path>
+				</File>
+				<File Id="379095589" Language="SFX">
+					<ShortName>SFX_Wind_Gust_13.wav</ShortName>
+					<Path>SFX\SFX_Wind_Gust_13_C47F2D1B.wem</Path>
+				</File>
+				<File Id="475720587" Language="SFX">
+					<ShortName>AMB_Wind_High_Loop_01.wav</ShortName>
+					<Path>SFX\AMB_Wind_High_Loop_01_9E684A3B.wem</Path>
+				</File>
+				<File Id="543843378" Language="SFX">
+					<ShortName>SFX_Wind_Gust_11.wav</ShortName>
+					<Path>SFX\SFX_Wind_Gust_11_C47F2D1B.wem</Path>
+				</File>
+				<File Id="554947884" Language="SFX">
+					<ShortName>SFX_Get_Crystal_01.wav</ShortName>
+					<Path>SFX\SFX_Get_Crystal_01_C47F2D1B.wem</Path>
+				</File>
+				<File Id="565634302" Language="SFX">
+					<ShortName>SFX_Flap_Wings_04.wav</ShortName>
+					<Path>SFX\SFX_Flap_Wings_04_C47F2D1B.wem</Path>
+				</File>
+				<File Id="650576223" Language="SFX">
+					<ShortName>SFX_Wind_Gust_03.wav</ShortName>
+					<Path>SFX\SFX_Wind_Gust_03_C47F2D1B.wem</Path>
+				</File>
+				<File Id="663752376" Language="SFX">
+					<ShortName>SFX_Get_Crystal_03.wav</ShortName>
+					<Path>SFX\SFX_Get_Crystal_03_C47F2D1B.wem</Path>
+				</File>
+				<File Id="684435115" Language="SFX">
+					<ShortName>SFX_Wind_Gust_12.wav</ShortName>
+					<Path>SFX\SFX_Wind_Gust_12_C47F2D1B.wem</Path>
+				</File>
+				<File Id="717227740" Language="SFX">
+					<ShortName>SFX_Wind_Gust_10.wav</ShortName>
+					<Path>SFX\SFX_Wind_Gust_10_C47F2D1B.wem</Path>
+				</File>
+				<File Id="723982505" Language="SFX">
+					<ShortName>SFX_P_Dust_Loop_01.wav</ShortName>
+					<Path>SFX\SFX_P_Dust_Loop_01_0ED39DC9.wem</Path>
+				</File>
+				<File Id="775930499" Language="SFX">
+					<ShortName>SFX_Wind_Gust_09.wav</ShortName>
+					<Path>SFX\SFX_Wind_Gust_09_C47F2D1B.wem</Path>
+				</File>
+				<File Id="838152671" Language="SFX">
+					<ShortName>SFX_Flap_Wings_02.wav</ShortName>
+					<Path>SFX\SFX_Flap_Wings_02_C47F2D1B.wem</Path>
+				</File>
+				<File Id="859954182" Language="SFX">
+					<ShortName>SFX_Wind_Gust_05.wav</ShortName>
+					<Path>SFX\SFX_Wind_Gust_05_C47F2D1B.wem</Path>
+				</File>
+				<File Id="910868277" Language="SFX">
+					<ShortName>SFX_Get_Crystal_02.wav</ShortName>
+					<Path>SFX\SFX_Get_Crystal_02_C47F2D1B.wem</Path>
+				</File>
+				<File Id="925086853" Language="SFX">
+					<ShortName>SFX_Wind_Gust_06.wav</ShortName>
+					<Path>SFX\SFX_Wind_Gust_06_C47F2D1B.wem</Path>
+				</File>
+				<File Id="927030321" Language="SFX">
+					<ShortName>SFX_Get_Crystal_04.wav</ShortName>
+					<Path>SFX\SFX_Get_Crystal_04_C47F2D1B.wem</Path>
+				</File>
+				<File Id="927668869" Language="SFX">
+					<ShortName>SFX_Wind_Gust_14.wav</ShortName>
+					<Path>SFX\SFX_Wind_Gust_14_C47F2D1B.wem</Path>
+				</File>
+				<File Id="927781739" Language="SFX">
+					<ShortName>SFX_Flap_Wings_07.wav</ShortName>
+					<Path>SFX\SFX_Flap_Wings_07_C47F2D1B.wem</Path>
+				</File>
+				<File Id="931578101" Language="SFX">
+					<ShortName>SFX_Wind_Gust_02.wav</ShortName>
+					<Path>SFX\SFX_Wind_Gust_02_C47F2D1B.wem</Path>
+				</File>
+				<File Id="1006313271" Language="SFX">
+					<ShortName>SFX_Wind_Gust_08.wav</ShortName>
+					<Path>SFX\SFX_Wind_Gust_08_C47F2D1B.wem</Path>
+				</File>
+			</IncludedMemoryFiles>
+		</SoundBank>
+		<SoundBank Id="491961918" Language="SFX">
+			<ObjectPath>\SoundBanks\Default Work Unit\Forest</ObjectPath>
+			<ShortName>Forest</ShortName>
+			<Path>Forest.bnk</Path>
+			<IncludedEvents>
+				<Event Id="1494607340" Name="AMB_Forest_Start" ObjectPath="\Events\Forest\AMB_Forest_Start"/>
+				<Event Id="333335808" Name="AMB_Forest_Stop" ObjectPath="\Events\Forest\AMB_Forest_Stop" MaxAttenuation="0.000000"/>
+				<Event Id="1396033513" Name="AMB_Grass_Start" ObjectPath="\Events\Forest\AMB_Grass_Start"/>
+				<Event Id="3242293763" Name="AMB_Grass_Stop" ObjectPath="\Events\Forest\AMB_Grass_Stop" MaxAttenuation="0.000000"/>
+				<Event Id="2427671096" Name="River_Start" ObjectPath="\Events\Forest\River_Start" MaxAttenuation="50.000000"/>
+				<Event Id="717165636" Name="River_Stop" ObjectPath="\Events\Forest\River_Stop" MaxAttenuation="0.000000"/>
+				<Event Id="3076372940" Name="Touch_Grass_Start" ObjectPath="\Events\Forest\Touch_Grass_Start"/>
+				<Event Id="557071456" Name="Touch_Grass_Stop" ObjectPath="\Events\Forest\Touch_Grass_Stop" MaxAttenuation="0.000000"/>
+				<Event Id="1456296260" Name="Touch_Leaf_Start" ObjectPath="\Events\Forest\Touch_Leaf_Start"/>
+				<Event Id="2199972856" Name="Touch_Leaf_Stop" ObjectPath="\Events\Forest\Touch_Leaf_Stop" MaxAttenuation="0.000000"/>
+				<Event Id="2988057335" Name="Touch_Water_Start" ObjectPath="\Events\Forest\Touch_Water_Start"/>
+				<Event Id="4224829277" Name="Touch_Water_Stop" ObjectPath="\Events\Forest\Touch_Water_Stop" MaxAttenuation="0.000000"/>
+				<Event Id="121420192" Name="Waterfall_Start" ObjectPath="\Events\Forest\Waterfall_Start" MaxAttenuation="40.000000"/>
+				<Event Id="2656094668" Name="Waterfall_Stop" ObjectPath="\Events\Forest\Waterfall_Stop" MaxAttenuation="0.000000"/>
+			</IncludedEvents>
+			<IncludedMemoryFiles>
+				<File Id="145138795" Language="SFX">
+					<ShortName>AMB_Waterfall_Loop_01.wav</ShortName>
+					<Path>SFX\AMB_Waterfall_Loop_01_9E684A3B.wem</Path>
+				</File>
+				<File Id="378009150" Language="SFX">
+					<ShortName>AMB_River_Loop_01.wav</ShortName>
+					<Path>SFX\AMB_River_Loop_01_9E684A3B.wem</Path>
+				</File>
+				<File Id="494316908" Language="SFX">
+					<ShortName>AMB_Grass_Touch_Loop_01.wav</ShortName>
+					<Path>SFX\AMB_Grass_Touch_Loop_01_9E684A3B.wem</Path>
+				</File>
+				<File Id="732015784" Language="SFX">
+					<ShortName>AMB_Forest_Loop_01.wav</ShortName>
+					<Path>SFX\AMB_Forest_Loop_01_9E69E797.wem</Path>
+				</File>
+				<File Id="746857848" Language="SFX">
+					<ShortName>AMB_Grass_Loop_01.wav</ShortName>
+					<Path>SFX\AMB_Grass_Loop_01_9E684A3B.wem</Path>
+				</File>
+				<File Id="1046961311" Language="SFX">
+					<ShortName>AMB_Leaf_Touch_Loop_01.wav</ShortName>
+					<Path>SFX\AMB_Leaf_Touch_Loop_01_9E684A3B.wem</Path>
+				</File>
+				<File Id="1061705468" Language="SFX">
+					<ShortName>AMB_Water_Touch_Loop_01.wav</ShortName>
+					<Path>SFX\AMB_Water_Touch_Loop_01_9E684A3B.wem</Path>
+				</File>
+			</IncludedMemoryFiles>
+		</SoundBank>
+		<SoundBank Id="1355168291" Language="SFX">
+			<ObjectPath>Init</ObjectPath>
+			<ShortName>Init</ShortName>
+			<Path>Init.bnk</Path>
+		</SoundBank>
+	</SoundBanks>
+</SoundBanksInfo>

@@ -48,6 +48,11 @@ namespace Avatar2
             public Utility.Controller.AxisPositiveXbox wings = Utility.Controller.AxisPositiveXbox.RIGHT_TRIGGER;
             //public float timeToReachTargetWings = 0.125f;
 
+
+            [Header("Slow")]
+            public Utility.Controller.AxisPositiveXbox slow = Utility.Controller.AxisPositiveXbox.RIGHT_TRIGGER;
+
+
         }
 
         // Configuration Instance
@@ -139,6 +144,8 @@ namespace Avatar2
 
             Utility.Controller.IInputVector<float> airPushInput;
 
+            public float slow_input = 0;
+
             public void Init(
                 float rotation_around_x_stick_time_to_reach_target,
                 float rotation_around_y_time_to_reach_target,
@@ -226,7 +233,8 @@ namespace Avatar2
             state.rotation_around_y.set_target(
                 (config.inverseRotAroundY ? -1 : 1) * gamepad.GetAxisNegPos(config.rotationAroundY).value
                 );
-
+            
+            state.slow_input = 1 - gamepad.GetAxisPositive(config.slow).value;
         }
 
         private void Control(Character chara, float dt)

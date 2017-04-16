@@ -26,13 +26,6 @@ namespace Avatar2
             [Header("UI")]
             public UnityEngine.Camera unityCamera;
             public RectTransform uiCanvas;
-            [Header("Cursor")]
-            public RectTransform outerBounds;
-            public RectTransform innerBounds;
-            public RectTransform cursor;
-
-            [Header("Bird")]
-            public Transform bird;
 
             [Header("Translation")]
             public Vector2 translationSpeed;
@@ -41,28 +34,46 @@ namespace Avatar2
             // Rotation
             public Vector3 rotationAroundAxisSpeed;
             
-            [Header("Thrust")]
-            public float minThrustSpeed;
-            public float maxThrustSpeed;
-            public AnimationCurve thrustTransition;
-            public float rechMinThrustTimeMultiplicator = 0.5f;
-            public float rechMaxThrustTimeMultiplicator = 2.0f;
-            
             [Header("Gravity")]
             public Vector3 ascendingGravity;
             public Vector3 descendingGravity;
             public Vector3 diveGravity;
+            public Vector3 stallGravity;
 
-            [Header("Friction")]
-            public Vector3 ascendingFriction;
-            public Vector3 horizontalFriction;
-            public Vector3 descendingFriction;
-            public Vector3 diveFriction;
+            [Header("Speed")]
+            public float ascendingTargetSpeed   = 0;
+            public float glidingTargetSpeed     = 128;
+            public float descendingTargetSpeed  = 256;
+            public float divingTargetSpeed      = 512;
+
+            //public float speedSmoothing = 0.25f;
+            public float speedGainFactor = 0.25f;
+            public float speedLossFactor = 0.25f;
+
+            [Header("Dive")]
+            public float diveLossOfControll = 1f;
+            public float diveRotationFactor = 2f;
+
+            public float get_min_target_speed()
+            {
+                return ascendingTargetSpeed;
+            }
+            public float get_max_target_speed()
+            {
+                return divingTargetSpeed;
+            }
 
             [Header("Wings")]
             public WingsDeployment.Configuration wingsDeploymentConfig;
             public AirPush.Configuration airPushConfig;
-            
+
+            [Header("Ground Hit Prevention")]
+            public float prenvetionDistance = 48f;
+            public float prenvetionTranslationStrenght = 8f;
+            public float prenvetionRotationStrenght = 1f;
+            [Range(0,1)]
+            public float prenvetionRotationMaxStrenght = 1f;
+
         }
 
         // Configuration Instance
@@ -87,32 +98,41 @@ namespace Avatar2
             public float air_gauge = 0;
             public float air_gauge_depletion = 0;
 
+
+            // Stall fake gravity
+            public Tweening.Tween<Vector3> fake_stall_gravity =
+                new Tweening.Tween<Vector3>(
+                    Vector3.zero,
+                    UnityTick.FIXED_UPDATE,
+                    Easing.DynaEase.Out,
+                    1/0.25f
+                    );
+
+            // Ground hit prevention
+            public Tweening.Tween<float> ground_hit_prevention =
+                new Tweening.Tween<float>(
+                    0,
+                    UnityTick.FIXED_UPDATE,
+                    Easing.DynaEase.Out,
+                    1/2f
+                    );
+
             // Wings
             public WingsDeployment wings_deployment;
             public AirPush air_push;
-            //public float wings_deployment;
 
-            // Thrust
-            public Smooth<float> thrust;
-            private float thrust_tick(float current, float target, float dt)
-            {
-                const float linear_speed = 0.0f;
-                const float time_to_reach_target = 4f;
-                float dist_to_target = Mathf.Abs(current - target);
-                return time_to_reach_target > 0 ?
-                    Mathf.MoveTowards(current, target, dt * ((dist_to_target * 2f * (1f / time_to_reach_target)) + linear_speed)) :
-                    target;
-            }
-
+            public Tweening.Tween<float> speed =
+                new Tweening.Tween<float>(0, UnityTick.FIXED_UPDATE, Easing.DynaEase.Out);
+            
             public void Init(
-                float config_start_thrust,
                 AirPush.Configuration air_push_cfg,
                 WingsDeployment.Configuration wings_cfg
                 )
             {
-                // Thrust
-                thrust = new Smooth<float>(config_start_thrust, thrust_tick);
+                // Air push setup
                 air_push = AirPush.Create(air_push_cfg);
+
+                // Wings deplyment setup
                 wings_deployment = WingsDeployment.Create(wings_cfg);
             }
         }
@@ -144,7 +164,7 @@ namespace Avatar2
         
         private void Start()
         {
-            WakeUp();
+
         }
 
         private void Update()
@@ -166,43 +186,23 @@ namespace Avatar2
         private void Init()
         {
             state.Init(
-                config.minThrustSpeed,
                 config.airPushConfig,
                 config.wingsDeploymentConfig
                 );
         }
-
-        private void WakeUp()
-        {
-
-        }
-
+        
         private void Behave(float dt)
         {
+            
             // Main Body
             MainBody_Behave(dt);
             
             // Cursor
-            Cursor_Behave(dt);
+            //Cursor_Behave(dt);
 
             // Bird
-            Bird_Behave(dt);
+            //Bird_Behave(dt);
 
-            #region Legacy
-            // Move toward bird
-            //current_character_position = transform.position;
-            //Vector3 current_bird_position = config.bird.position;
-            //Vector3 target_character_position = current_bird_position;
-            //// Smoothing
-            //const float time_to_reach_target = 8f;
-            //float dist_to_target = Vector3.Distance(current_character_position, current_bird_position);
-            //new_character_position =
-            //    time_to_reach_target > 0 ?
-            //    Vector3.MoveTowards(current_character_position, target_character_position, dist_to_target * dt * (1f / time_to_reach_target)) :
-            //    target_character_position;
-
-            //transform.position = new_character_position;
-            #endregion
         }
 
         #region Wings
@@ -321,7 +321,6 @@ namespace Avatar2
             }
             public void TryCast(float current_time)
             {
-                Debug.Log(RemainingCooldown(current_time));
                 if (IsOnCooldown(current_time))
                 {
                     float remaining_cooldown = RemainingCooldown(current_time);
@@ -333,7 +332,6 @@ namespace Avatar2
             }
             public void Cast(float current_time)
             {
-                Debug.Log("Cast");
                 state.time_since_last_beginned_cast = current_time;
                 SetOnCooldown(current_time);
                 state.ability_progress = 0;
@@ -372,7 +370,7 @@ namespace Avatar2
             }
             public bool IsOnCooldown(float current_time)
             {
-                Debug.Log(string.Format("target : {0} | now : {1}", state.time_since_last_set_on_cooldown + config.cooldown, current_time));
+                //Debug.Log(string.Format("target : {0} | now : {1}", state.time_since_last_set_on_cooldown + config.cooldown, current_time));
                 return current_time < state.time_since_last_set_on_cooldown + config.cooldown;
             }
             public float RemainingCooldown(float current_time)
@@ -382,15 +380,30 @@ namespace Avatar2
         }
         #endregion
 
+        // Slow
+        Tweening.Tween<float> slow_factor =
+            new Tweening.Tween<float>(0, UnityTick.UPDATE, Easing.DynaEase.Out);
+
         #endregion
+
         private void MainBody_Behave(float dt)
         {
+            // Reset translation applyed at the end of each frames
             state.translation = Vector3.zero;
+            state.rotation = Quaternion.identity;
+
             MainBody_Wings(dt);
-            //state.stored_velocity = Vector3.ClampMagnitude(state.stored_velocity, config.maxThrustSpeed);
+
+            AirPushTick(dt);
+
+            GroundHitPreventionTick(dt);
+
+            MainBody_SpeedCorrection();
             MainBody_TranslationTick(dt);
+
             MainBody_RotationTick(dt);
-            MainBody_ThrustTick(state.translation, dt);
+            MainBody_RotationCorrectionTick(dt);
+
             MainBody_ApplyTransform();
         }
 
@@ -402,24 +415,116 @@ namespace Avatar2
             // Wings deployment
             // 0 = Closed
             // 1 = Deployed
-            var wings_input = ctrl.GetWingsInput();
-            float wings_deployment = (1 - wings_input.value);
-            state.wings_deployment.Tick(wings_deployment, dt);
-            wings_deployment = state.wings_deployment.state.wings_deployment;
+            var wings_input = ctrl.GetWingsInput();                             // Left trigger input
+            float wings_deployment = (1 - wings_input.value);                   // Convert to target wings deployment
+            state.wings_deployment.Tick(wings_deployment, dt);                  // Refresh wings deplyment
+            wings_deployment = state.wings_deployment.state.wings_deployment;   // Retrieve refreshed wings deployment
+
+            // Fake gravity
+            float ascending_descending_ratio = Vector3.Dot(Vector3.up, transform.forward) * 0.5f + 0.5f;
+            Vector3 fake_gravity = Vector3.Lerp(config.descendingGravity, config.ascendingGravity, ascending_descending_ratio);
+            fake_gravity = Vector3.Lerp(fake_gravity, config.diveGravity, 1 - wings_deployment);
+
+            // Stall gravity
+            float dot = Vector3.Dot(transform.forward, Vector3.up);
+            dot = Mathf.Clamp01(dot);
+            float stall_factor = state.speed.get_value() / config.glidingTargetSpeed;
+            stall_factor = 1 - stall_factor;
+            stall_factor *= dot * dot;
+            state.fake_stall_gravity.SetTarget(config.stallGravity * stall_factor);
+
+            // Slow
+            slow_factor.SetTarget(ctrl.state.slow_input);
+
+            // Calculate velocity
+            Vector3 velocity = transform.forward * state.speed.get_value();
+            velocity += fake_gravity;
+            velocity += state.fake_stall_gravity.get_value();
+
+            // Apply velocity
+            state.translation += velocity * dt;
+        }
+
+        protected void AirPushTick(float dt)
+        {
+            // Input
+            var ctrl = config.controller;
+            var input = ctrl.GetWingsInput();
+
+            bool triggerAirPush = input.last_value < input.value;
+            if (triggerAirPush)
+            {
+                try
+                {
+                    state.air_push.TryCast(Time.fixedTime);
+                }
+                catch (AirPush.AbilityIsOnCooldownExeption e)
+                {
+                    //Debug.Log(e.Message);
+                }
+            }
+            state.air_push.Tick(Time.fixedTime, dt);
+            Vector3 air_push_translation = state.air_push.GetThisFrameTranslation();
+            air_push_translation = transform.rotation * air_push_translation;
+            state.translation += air_push_translation;
+        }
+
+        protected void GroundHitPreventionTick(float dt)
+        {
+            // Position to ground Correction
+
+            float correction_ratio = 0;
+
+            Ray ray = new Ray(
+                transform.position,
+                (
+                    transform.forward * 1.5f * state.speed.get_value() * dt +                    
+                    -transform.up * ( 1 + (state.speed.get_value() / config.get_max_target_speed())) * config.prenvetionDistance * dt
+                    ).normalized
+                );
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, config.prenvetionDistance))
+            {
+                // Debug
+                Debug.DrawLine(ray.origin, hit.point, Color.red);
+                Debug.DrawRay(hit.point, hit.normal * 10f, Color.magenta);
+
+                float dist_to_hit = Vector3.Distance(ray.origin, hit.point);
+                float dist_to_hit_ratio = dist_to_hit / config.prenvetionDistance;
+                correction_ratio = 1 - dist_to_hit_ratio;
+            }
+            state.ground_hit_prevention.SetTarget(correction_ratio * correction_ratio);
+            
+            state.translation += Vector3.up * state.speed.get_value() * config.prenvetionTranslationStrenght * state.ground_hit_prevention.get_value() * dt;
+
+        }
+
+#if false
+        private void MainBody_Wings_OLD(float dt)
+        {
+            // Input
+            var ctrl = config.controller;
+
+            // Wings deployment
+            // 0 = Closed
+            // 1 = Deployed
+            var wings_input = ctrl.GetWingsInput();                             // Left trigger input
+            float wings_deployment = (1 - wings_input.value);                   // Convert to target wings deployment
+            state.wings_deployment.Tick(wings_deployment, dt);                  // Refresh wings deplyment
+            wings_deployment = state.wings_deployment.state.wings_deployment;   // Retrieve refreshed wings deployment
 
             Vector3 original_velocity = state.stored_velocity;
             Vector3 regular_redirected_velocity = transform.forward * original_velocity.magnitude;
             Vector3 dive_redirected_velocity = Vector3.Project(original_velocity, Vector3.up) + Vector3.ProjectOnPlane(original_velocity, Vector3.up).magnitude * Vector3.ProjectOnPlane(transform.forward, Vector3.up).normalized;
-            //Vector3 redirected_velocity = Vector3.Slerp(state.stored_velocity, transform.forward * state.stored_velocity.magnitude, wings_deployment);
             Vector3 redirected_velocity = Vector3.Lerp(dive_redirected_velocity, regular_redirected_velocity, wings_deployment);
 
             // Gravity
             float ascending_descending_ratio = Vector3.Dot(Vector3.up, transform.forward) * 0.5f + 0.5f;
             ascending_descending_ratio *= wings_deployment;
             Vector3 gravity = Vector3.Lerp(config.descendingGravity, config.ascendingGravity, ascending_descending_ratio);
-                    gravity = Vector3.Lerp(gravity, config.diveGravity, 1 - wings_deployment);
+            gravity = Vector3.Lerp(gravity, config.diveGravity, 1 - wings_deployment);
             state.stored_velocity += gravity * dt;
-            
+
             // ARCHIMED
             float archimed_strengh = 0.75f;
             // Archimed Ratio
@@ -443,8 +548,9 @@ namespace Avatar2
             float archimed_acceleration = time_to_reach_target > 0 ? (to_target * dt) / time_to_reach_target : to_target;
             // Archimed Force
             Vector3 archimed_force = Vector3.up * archimed_acceleration;
-            
+            // Apply archimed
             state.stored_velocity += archimed_force;
+
             var input = ctrl.GetWingsInput();
             bool triggerAirPush = input.last_value < input.value;
             if (triggerAirPush)
@@ -462,32 +568,107 @@ namespace Avatar2
             state.air_push.Tick(Time.fixedTime, dt);
             Vector3 air_push_translation = state.air_push.GetThisFrameTranslation();
             air_push_translation = transform.rotation * air_push_translation;
-            state.translation += air_push_translation; 
+            state.translation += air_push_translation;
+        }
+#endif
 
-            //const float gauge_scale = 0.50f;
-            //const float gauge_depletion_rate = 1f;
+        private void MainBody_SpeedCorrection()
+        {
+            // Set smoothed speed's target
+            float target_speed = GetTargetSpeed();
+            
+            // Set target speed
+            state.speed.SetTarget(target_speed);
 
-            //float current_air_push_forward = state.air_gauge;
-            //var input = ctrl.GetWingsInput();
-            //float air_push_input = input.value - input.last_value;
-            //air_push_input = Mathf.Max(0, air_push_input * gauge_scale);
+            // Set time factor depending on gain or loss of speed
+            bool is_gain = target_speed > state.speed.current_value;
+            float time_factor;
+            if (is_gain)
+            {
+                time_factor = 1f / config.speedGainFactor;
+            }
+            else
+            {
+                time_factor = 1f / config.speedLossFactor;
+            }
+            const float slow_factor_strenght = 4f;
+            
+            // Set time factor depending on slow factor
+            float slow_factor = 1 + (1 - this.slow_factor.get_value()) * slow_factor_strenght;
+            time_factor *= slow_factor;
 
-            //float current_air_gauge = state.air_gauge;
-            //float pushed_air_gauge = current_air_gauge + air_push_input;
-            //float depleted_air_gauge = Mathf.MoveTowards(pushed_air_gauge, 0, dt * gauge_depletion_rate * pushed_air_gauge);
-            //float new_air_gauge = depleted_air_gauge;
-            //state.air_gauge = new_air_gauge;
+            // Apply time factor to tween
+            state.speed.time_factor = time_factor;
+        }
 
-            //// Push up
-            //float depletion = Mathf.Abs(pushed_air_gauge - depleted_air_gauge);
-            //state.air_gauge_depletion = depletion;
+        private void MainBody_RotationCorrectionTick(float dt)
+        {
+            DiveRotationCorrectionTick(dt);
+            //GroundHitPreventionCorrectionTick(dt);
+        }
 
+        /// <summary>
+        /// Rotate avatar toward the ground if diving.
+        /// </summary>
+        /// <param name="dt"></param>
+        private void DiveRotationCorrectionTick(float dt)
+        {
+            float diving = 1 - state.wings_deployment.state.wings_deployment;
 
-            // Friction
-            float velocity = state.stored_velocity.magnitude;
-            const float reduction_ratio = 64f;
-            float reduced_velocity = velocity - (velocity * dt * reduction_ratio);
-            //state.stored_velocity = state.stored_velocity.normalized * reduced_velocity;
+            float dot = Vector3.Dot(transform.forward, Vector3.up);
+            float x_axis_rotation = dot * 0.5f + 0.5f;
+            x_axis_rotation *= 180;
+            x_axis_rotation *= config.diveRotationFactor;
+            x_axis_rotation *= diving * diving;
+
+            state.rotation *= Quaternion.AngleAxis(x_axis_rotation * dt, Vector3.right);
+        }
+
+        /// <summary>
+        /// Rotate avatar to prevent him from hitting the ground
+        /// </summary>
+        /// <param name="dt"></param>
+        private void GroundHitPreventionCorrectionTick(float dt)
+        {
+
+            // Orientation to ground Correction
+            float correctionRatio = 0;
+            Quaternion correctedRotation = transform.rotation;
+            // Position to ground Correction
+            Ray ray = new Ray(transform.position, (transform.forward * 1.5f * state.speed.get_value() * dt - transform.up).normalized);
+            RaycastHit hit;
+            const float maxCorrectionDist = 64f;
+            float distToGround = 1;
+            if (Physics.Raycast(ray, out hit, maxCorrectionDist))
+            {
+                // Debug
+                Debug.DrawLine(ray.origin, hit.point, Color.red);
+                Debug.DrawRay(hit.point, hit.normal * 10f, Color.magenta);
+                                  
+                // Calculate correction ratio                                         
+                float dotCorrectionRatio = Vector3.Dot(hit.normal, state.rotation * Vector3.forward);
+                if (dotCorrectionRatio >= 0)
+                    dotCorrectionRatio = -1f;
+                dotCorrectionRatio = 1 + dotCorrectionRatio;
+                float distCorrectionRatio = 1 - Vector3.Distance(ray.origin, hit.point) / maxCorrectionDist;
+                distToGround = 1 - distCorrectionRatio;
+                if (
+                    Vector3.Dot(hit.normal, state.rotation * Vector3.forward) < 0.1f &&
+                    Vector3.Distance(ray.origin, hit.point) < 2f
+                    )
+                {
+                    //StunAvatar(hit.normal);
+                }                               
+                correctionRatio = dotCorrectionRatio * distCorrectionRatio;
+
+                // Correct rotation
+                correctedRotation = Quaternion.LookRotation(Vector3.ProjectOnPlane((state.rotation * Vector3.forward), Vector3.up), hit.normal);
+
+                //state.highCorrectionRatioSmooth += correctionRatio * correctionRatio * dt;
+                float delta_angle = Quaternion.Angle(transform.rotation, correctedRotation);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, correctedRotation, delta_angle * dt);
+            }
+
         }
 
         private void MainBody_TranslationTick(float dt)
@@ -501,27 +682,9 @@ namespace Avatar2
 
             // Translation requirement
             Vector3     translation                     = Vector3.zero;
-
-            // Thrust requirements requirement
-            Vector3     current_character_forward       = transform.rotation * Vector3.forward;
-            float       current_character_thrust_speed  = state.thrust.get_value();
-
-            // Thrust
-            Vector3 thrust_translation = current_character_forward* current_character_thrust_speed * dt;
-            //translation += thrust_translation;
-                        
-            // Stored velocity
+                                    
+            // Apply stored velocity each frame
             translation += state.stored_velocity * dt;
-
-#if USE_BOUND_TRANSLATION
-            // Bound hit translation
-            float x_stick_magnitude = Mathf.Abs(ctrl.rotation_around_z.get_value());
-            float y_stick_magnitude = Mathf.Abs(ctrl.rotation_around_x.get_value());
-            Vector3 bounds_hit_translation =
-                (1 - x_stick_magnitude) * ctrl.x_translation_hit_bounds.get_value() * config.translationSpeed.x * (transform.rotation * Vector3.right) +
-                (1 - y_stick_magnitude) * ctrl.y_translation_hit_bounds.get_value() * config.translationSpeed.y * (transform.rotation * Vector3.up);
-            translation += bounds_hit_translation * dt;
-#endif
 
             // Store translation
             state.translation += translation;
@@ -534,13 +697,24 @@ namespace Avatar2
 
             // Rotation requirement
             Quaternion rotation = Quaternion.identity;
-            
+
             //////////////////////
             // Regular Rotation //
             //////////////////////
 
             // Rotation X (Left-Right)
+            // Player input
             float rot_around_x = ctrl.rotation_around_x.get_value();
+            // Dive
+            float diving = 1 - state.wings_deployment.state.wings_deployment;
+            rot_around_x *= (1 - diving) * config.diveLossOfControll + (1 - config.diveLossOfControll);
+            // Ground hit prevention
+            rot_around_x = Mathf.Lerp(
+                rot_around_x,
+                -config.prenvetionRotationMaxStrenght,
+                state.ground_hit_prevention.get_value() * config.prenvetionRotationStrenght
+                );
+
             rot_around_x *= config.rotationAroundAxisSpeed.x;
             rotation *= Quaternion.AngleAxis(rot_around_x * dt, Vector3.right);
 
@@ -557,42 +731,7 @@ namespace Avatar2
             //rot_around_z *= config.rotationAroundAxisSpeed.z;
             //rotation *= Quaternion.AngleAxis(rot_around_z * dt, Vector3.forward);
 
-#if USE_BOUND_ROTATION
-            ////////////////////
-            // Bound Rotation //
-            ////////////////////
-
-            // Rotation X (Left-Right)
-            float rot_around_x_bound = ctrl.y_translation_hit_bounds.get_value();
-            rot_around_x_bound *= config.rotationAroundAxisSpeed.x;
-            rotation *= Quaternion.AngleAxis(rot_around_x_bound * dt, -Vector3.right);
-
-            // Rotation Z (Antero-Posterior)
-            float rot_around_z_bound = ctrl.x_translation_hit_bounds.get_value();
-            rot_around_z_bound *= config.rotationAroundAxisSpeed.z;
-            rotation *= Quaternion.AngleAxis(rot_around_z_bound * dt, Vector3.up);
-
-            #region Legacy
-            //// Thrust requirements requirement
-            //Vector3 current_character_forward = transform.rotation * Vector3.forward;
-            //float current_character_thrust_speed = 128f;
-
-            //// Thrust
-            //Vector3 thrust_translation = current_character_forward * current_character_thrust_speed;
-            //translation += thrust_translation * dt;
-            //// Bound hit translation
-            //float x_stick_magnitude = Mathf.Abs(ctrl.rotation_around_z.get_value());
-            //float y_stick_magnitude = Mathf.Abs(ctrl.rotation_around_x_stick.get_value());
-            //Vector3 bounds_hit_translation =
-            //    (1 - x_stick_magnitude) * ctrl.x_translation_hit_bounds.get_value() * config.translationSpeed.x * (transform.rotation * Vector3.right) +
-            //    (1 - y_stick_magnitude) * ctrl.y_translation_hit_bounds.get_value() * config.translationSpeed.y * (transform.rotation * Vector3.up);
-            //translation += bounds_hit_translation * dt;
-            //// Apply translation
-            //Vector3 new_character_position = current_character_position + translation;
-            //transform.position = new_character_position;
-            #endregion
-#endif
-            // Store rotation
+            // Store rotation to be applyed later
             state.rotation = rotation;
         }
 
@@ -606,7 +745,10 @@ namespace Avatar2
         {
             Vector3 current_character_position      = transform.position;
             Vector3 new_character_position          = current_character_position + translation;
-            
+
+            bool hard_collision = false;
+            bool small_collision = false;
+
             //Vector3 current_bird_position           = config.bird.transform.position;
             //Vector3 local_current_bird_position     = (current_bird_position - current_character_position);
             //Vector3 new_bird_position               = new_character_position + translation;
@@ -617,6 +759,8 @@ namespace Avatar2
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, translation.magnitude + offset))
             {
+                small_collision = true;
+
                 //new_bird_position = Vector3.MoveTowards(hit.point, current_bird_position, offset + offset);
                 //new_character_position = new_bird_position - local_current_bird_position;
                 new_character_position = Vector3.MoveTowards(hit.point, current_character_position, offset);
@@ -634,6 +778,8 @@ namespace Avatar2
                     // new_bird_position = Vector3.MoveTowards(hit.point, new_bird_position, offset);
                     // new_character_position = new_bird_position - local_current_bird_position;
                     new_character_position = Vector3.MoveTowards(hit.point, new_character_position, offset);
+
+                    hard_collision = true;
                 }
                 else
                 {
@@ -641,6 +787,11 @@ namespace Avatar2
                     new_character_position = new_character_position + translation;
                 }
 
+            }
+
+            if (hard_collision)
+            {
+                state.speed.current_value = 0;
             }
 
             // Apply position
@@ -657,166 +808,37 @@ namespace Avatar2
             // Apply position
             transform.rotation = new_character_rotation;
         }
-
-
-        private void MainBody_ThrustTick(Vector3 translation, float dt)
+        
+        public float GetTargetSpeed()
         {
-            //////////////////
-            // Thrust Speed //
-            //////////////////
-            translation = translation.normalized;
+            float dot = Vector3.Dot(Vector3.up, transform.forward);
 
-            float up_down_modifier = Vector3.Dot(translation, -Vector3.up);
-            //Debug.DrawRay(config.bird.position, translation, Color.red);
-            up_down_modifier = up_down_modifier * 0.5f + 0.5f;
-            up_down_modifier = Mathf.SmoothStep(0, 1, up_down_modifier);
-            up_down_modifier = config.thrustTransition.Evaluate(up_down_modifier);
-
-            float target_thrust = Mathf.Lerp(config.minThrustSpeed, config.maxThrustSpeed, up_down_modifier);
-
-            state.thrust.set_target(target_thrust);
-            state.thrust.tick(Mathf.Lerp(config.rechMinThrustTimeMultiplicator, config.rechMaxThrustTimeMultiplicator, up_down_modifier) * dt);
-        }
-
-
-        private void Bird_Behave(float dt)
-        {
-            var ctrl = config.controller.state;
-
-            UnityEngine.Camera unit_camera = config.unityCamera;
-
-            Vector3     current_character_position  = transform.position;
-            Vector3     current_camera_position     = unit_camera.transform.position;
-            Vector3     from_character_to_camera    = current_camera_position - current_character_position;
-
-            // Allign Bird With Cursor
-            RectTransform ui = config.uiCanvas;
-            Vector3 cursor_screen_point = config.cursor.position;
-
-
-            const float max_dist_from_camera = 64f;
-            Vector3 cursor_world_point = unit_camera.ScreenToWorldPoint(cursor_screen_point + Vector3.forward * max_dist_from_camera);
-            Vector3 from_camera_to_cursor_world_point = cursor_world_point - current_camera_position;
-
-            //Debug.DrawRay(current_camera_position, from_camera_to_cursor_world_point, Color.red);
-            //Debug.DrawRay(current_character_position, from_character_to_camera.normalized, Color.blue);
-
-            Vector3 intersection;
-            if (!Math3d.LinePlaneIntersection(
-                out intersection,
-                current_camera_position,
-                from_camera_to_cursor_world_point.normalized,
-                from_character_to_camera.normalized,
-                current_character_position)
-                )
-                return;
-
-            Vector3 target_bird_position = intersection;
-            // @improvement : Smoothing
-            Vector3 new_bird_position = target_bird_position;
-
-            config.bird.transform.position = new_bird_position;
-
-        }
-
-        private void Cursor_Behave(float dt)
-        {
-            var ctrl = config.controller.state;
-
-            float @float;
-
-            // Camera
-            UnityEngine.Camera unit_camera = config.unityCamera;
-
-            // Bird
-            Vector3 current_bird_world_position = config.bird.transform.position;
-
-            // Rect
-            RectTransform outer_rectTransform = config.outerBounds;
-            RectTransform inner_rectTransform = config.innerBounds;
-            RectTransform cursor_rectTranform = config.cursor;
+            float ascending_to_gliding_interpolation =
+                Mathf.Clamp01((1 - dot));
             
-            // Rect
-            Rect outer_bounds = outer_rectTransform.rect;
-            Rect inner_bounds = inner_rectTransform.rect;
+            float gliding_to_descending_interpolation =
+                Mathf.Clamp01(-dot);
+            
+            float to_diving_interpolation =
+               1 - state.wings_deployment.state.wings_deployment;
 
-            float aspect_ratio = outer_bounds.width / outer_bounds.height;
+            float ascending_to_gliding = config.glidingTargetSpeed - config.ascendingTargetSpeed;
+            
+            float gliding_to_descending = config.descendingTargetSpeed - config.glidingTargetSpeed;
 
+            float ascending_to_descending =
+                config.ascendingTargetSpeed +
+                ascending_to_gliding * ascending_to_gliding_interpolation +
+                gliding_to_descending * gliding_to_descending_interpolation;
 
-            //// Reposition Cursor
-            //Vector2 current_cursor_position = cursor_rectTranform.position;
-            //Vector3 current_bird_screen_position = unit_camera.WorldToScreenPoint(current_bird_world_position);
-            //Vector2 target_cursor_position = new Vector2(current_bird_screen_position.x, current_bird_screen_position.y);
-            //// @improvement : Smoothing ?
-            //Vector2 new_cursor_position = target_cursor_position;
-            //cursor_rectTranform.position = new_cursor_position;
+            float target_speed =
+                Mathf.Lerp(ascending_to_descending, config.divingTargetSpeed, to_diving_interpolation);
 
+            target_speed *= slow_factor.get_value();
 
-            // Position
-            //const float pixel_unit = 1f;
-            //Vector2 currentPosition = cursor_rectTranform.anchoredPosition;
-            //currentPosition = Rect.PointToNormalized(outer_bounds, currentPosition);
-
-            //Vector2 translation = ctrl.cursor_displacement.get_value();
-
-            //if(Mathf.Sign(translation.x) == Mathf.Sign(ctrl.x_translation_hit_bounds.get_target()))
-            //{
-            //    translation.x = (1 - Mathf.Abs(ctrl.x_translation_hit_bounds.get_target())) * translation.x;
-            //}
-            //if (Mathf.Sign(translation.y) == -Mathf.Sign(ctrl.rotation_around_x_bound.get_target()))
-            //{
-            //    translation.y = (1 - Mathf.Abs(ctrl.rotation_around_x_bound.get_target())) * translation.y;
-            //}
-
-            //translation *= pixel_unit;
-            //translation = Vector2.Scale(translation, new Vector2(1, aspect_ratio));
-
-            //currentPosition += translation * dt;
-            //translation = Vector2.Scale(translation, new Vector2(0.5f, 0.5f)) + new Vector2(0.5f, 0.5f);
-            //currentPosition = translation;
-
-
-            Vector2 current_cursor_position = cursor_rectTranform.anchoredPosition;
-            Vector2 target_cursor_position = ctrl.cursor_displacement.get_value();
-            target_cursor_position = Vector2.Scale(target_cursor_position, new Vector2(0.5f, 0.5f)) + new Vector2(0.5f, 0.5f);
-            target_cursor_position = new Vector2(
-                Mathf.Lerp(outer_bounds.xMin, outer_bounds.xMax, target_cursor_position.x),
-                Mathf.Lerp(outer_bounds.yMin, outer_bounds.yMax, target_cursor_position.y)
-                );
-            Vector2 new_cursor_position = target_cursor_position;
-            cursor_rectTranform.anchoredPosition = new_cursor_position;
-
-
-            //currentPosition = Rect.NormalizedToPoint(outer_bounds, currentPosition);
-            //cursor_rectTranform.anchoredPosition = currentPosition;
-
-            // X Translation
-            //@float =
-            //    // Negatives
-            //    -Mathf.Clamp01(Mathf.InverseLerp(inner_bounds.xMin, outer_bounds.xMin, currentPosition.x)) +
-            //    // Positives
-            //    Mathf.Clamp01(Mathf.InverseLerp(inner_bounds.xMax, outer_bounds.xMax, currentPosition.x))
-            //    ;
-            //@float = @float * @float * @float;
-            //ctrl.x_translation_hit_bounds.set_target(@float);
-            @float = ctrl.cursor_displacement.get_value().x;
-            @float = @float * @float * @float;
-            ctrl.x_translation_hit_bounds.set_target(@float);
-
-            // Y Translation
-            //@float =
-            //     Negatives
-            //    -Mathf.Clamp01(Mathf.InverseLerp(inner_bounds.yMin, outer_bounds.yMin, currentPosition.y)) +
-            //     Positives
-            //    Mathf.Clamp01(Mathf.InverseLerp(inner_bounds.yMax, outer_bounds.yMax, currentPosition.y))
-            //    ;
-            //@float = @float * @float * @float;
-            //ctrl.y_translation_hit_bounds.set_target(@float);
-            @float = ctrl.cursor_displacement.get_value().y;
-            @float = @float * @float * @float;
-            ctrl.y_translation_hit_bounds.set_target(@float);
-
+            return target_speed;
         }
+
 #endregion
 
     }

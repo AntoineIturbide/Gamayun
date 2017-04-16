@@ -4,7 +4,65 @@ timeCreated: 1486134187
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    100000: Box001
+    100002: Box002
+    100004: Box003
+    100006: Box008
+    100008: //RootNode
+    100010: Rock_03
+    100012: Rock_04
+    100014: Rock_05
+    100016: Rock_06
+    100018: Rock_07
+    100020: ZBrush_defualt_group
+    100022: ZBrush_defualt_group001
+    400000: Box001
+    400002: Box002
+    400004: Box003
+    400006: Box008
+    400008: //RootNode
+    400010: Rock_03
+    400012: Rock_04
+    400014: Rock_05
+    400016: Rock_06
+    400018: Rock_07
+    400020: ZBrush_defualt_group
+    400022: ZBrush_defualt_group001
+    2300000: Box001
+    2300002: Box002
+    2300004: Box003
+    2300006: Box008
+    2300008: Rock_03
+    2300010: Rock_04
+    2300012: Rock_05
+    2300014: Rock_06
+    2300016: Rock_07
+    2300018: ZBrush_defualt_group
+    2300020: ZBrush_defualt_group001
+    3300000: Box001
+    3300002: Box002
+    3300004: Box003
+    3300006: Box008
+    3300008: Rock_03
+    3300010: Rock_04
+    3300012: Rock_05
+    3300014: Rock_06
+    3300016: Rock_07
+    3300018: ZBrush_defualt_group
+    3300020: ZBrush_defualt_group001
+    4300000: ZBrush_defualt_group
+    4300002: Box001
+    4300004: ZBrush_defualt_group001
+    4300006: Rock_03
+    4300008: Rock_04
+    4300010: Rock_05
+    4300012: Rock_06
+    4300014: Rock_07
+    4300016: Box008
+    4300018: Box002
+    4300020: Box003
+    9500000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
@@ -15,6 +73,8 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 

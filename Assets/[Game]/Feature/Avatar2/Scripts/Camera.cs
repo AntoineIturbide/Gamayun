@@ -68,6 +68,26 @@ namespace Avatar2
             Behave(Time.fixedDeltaTime);
         }
 
+        private void LateUpdate()
+        {
+            Vector3 current_camera_position = transform.position;
+            Vector3 current_watched_position = config.character.transform.position;
+            Quaternion current_watched_rotation = config.character.transform.rotation;
+            Quaternion current_camera_rotation = transform.rotation;
+
+            Vector3 from_watched_to_camera = current_camera_position - current_watched_position;
+            Vector3 from_camera_to_watched = current_watched_position - current_camera_position;
+
+            /// ROTATION            
+            // Target rotation
+            Quaternion target_camera_rotation = Quaternion.LookRotation(from_camera_to_watched, current_watched_rotation * Vector3.up);
+            // @improvement : Smoothing
+            Quaternion new_camera_rotation = target_camera_rotation;
+
+            // Rotation
+            transform.rotation = new_camera_rotation;            
+        }
+
         private void OnPreCull()
         {
 
@@ -108,22 +128,12 @@ namespace Avatar2
             target_camera_position += current_watched_position;
             // @improvement : Smoothing
             Vector3 new_camera_position = target_camera_position;
-
-            /// ROTATION            
-            // Target rotation
-            Quaternion target_camera_rotation = Quaternion.LookRotation(from_camera_to_watched, current_watched_rotation * Vector3.up);
-            // @improvement : Smoothing
-            Quaternion new_camera_rotation = target_camera_rotation;
-
+            
             /// Apply
             // Position
             transform.position = new_camera_position;
-            // Rotation
-            transform.rotation = new_camera_rotation;
-
-            // Animation
-            config.birdAnimator.SetFloat("Speed", config.character.state.thrust.get_value());
-
+            //// Rotation
+            //transform.rotation = new_camera_rotation;            
         }
 
         private void RefreshAirGauge()

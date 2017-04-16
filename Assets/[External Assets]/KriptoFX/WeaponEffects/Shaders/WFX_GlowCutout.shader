@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Effects/WeaponFX/GlowCutout" {
 	Properties {
 	[HDR]_TintColor ("Tint Color", Color) = (0.5,0.5,0.5,1)
@@ -47,7 +49,7 @@ Category {
 			{
 				v2f o;
 				v.vertex.xyz += v.normal/100 * _BorderScale.z;
-				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.color = v.color;
 				o.texcoord = TRANSFORM_TEX(v.texcoord,_MainTex);
 				return o;
